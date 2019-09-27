@@ -16,7 +16,26 @@ truncate -s 0 $path/$problem_id/logs/test_cases_error;
 
 if [[ $language == "cpp" ]]
 then
-	echo "g++";
+	g++ $path/$problem_id/codes/code.c -o $path/$problem_id/codes/a.out 2> $path/$problem_id/logs/compilation_error;
+
+	if [[ $? -ne 0 ]]
+	then
+		echo 1;
+		exit;
+	fi
+
+	for i in $(seq 1 $n_test_cases);
+	do
+		$path/$problem_id/codes/a.out < $path/$problem_id/test_cases/ip$i > $path/$problem_id/test_cases/currop;
+		differences=$(diff $path/$problem_id/test_cases/currop $path/$problem_id/test_cases/op$i | wc | awk '{print $1}');
+
+		if [[ $differences -ne 0 ]]
+		then
+			echo $i > $path/$problem_id/logs/test_cases_error;
+			echo 2;
+			exit;
+		fi
+	done
 fi
 
 if [[ $language == "c" ]]
@@ -40,9 +59,7 @@ then
 			echo 2;
 			exit;
 		fi
-	done
-
-	
+	done	
 fi
 
 if [[ $language == "python" ]]
