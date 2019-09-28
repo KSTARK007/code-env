@@ -1,6 +1,7 @@
 #!/bin/sh
 
-: '	0: successful
+: '	
+	0: successful
 	1: compilation error -> /logs/compilation_error
 	2: test case error -> /logs/test_cases_error
 	3: test case error -> /logs/test_cases_timeout
