@@ -24,7 +24,7 @@ class Student(Resource):
 		department = details["Department"]
 		if not student_exists(usn):
 			cur = mysql.connection.cursor()
-			cur.execute("INSERT INTO Student (Student_ID,Student_Name,Batch, Department, Section) VALUES (%s,%s,%s,%s)",(usn,name,batch,section,department,section))
+			cur.execute("INSERT INTO Student (Student_ID,Student_Name,Batch, Department, Section) VALUES ('%s','%s','%s','%s')",(usn,name,batch,section,department,section))
 			mysql.connection.commit()
 			return status.HTTP_201_CREATED
 		return status.HTTP_409_CONFLICT	#Conflict here is that the given USN already exists
@@ -51,7 +51,7 @@ class Faculty(Resource):
 		department = details["Department"]
 		if faculty_exists(f_id):
 			cur = mysql.connection.cursor()
-			cur.execute("INSERT INTO Faculty (Faculty_ID,Faculty_Name,Department) VALUES (%s,%s,%s)",(usn,name,batch,section,department))
+			cur.execute("INSERT INTO Faculty (Faculty_ID,Faculty_Name,Department) VALUES ('%s','%s','%s')",(usn,name,batch,section,department))
 			mysql.connection.commit()
 			return status.HTTP_201_CREATED
 		return status.HTTP_409_CONFLICT	#Conflict here is that the given faculty ID already exists
@@ -96,7 +96,7 @@ class Tag(Resource):
 		name = details["Name"]
 		if not tag_exists(tag_id):
 			cur = mysql.connection.cursor()
-			cur.execute("INSERT INTO Tags (Tag_name) VALUES (%s)",(name))
+			cur.execute("INSERT INTO Tags (Tag_name) VALUES ('%s')",(name))
 			mysql.connection.commit()
 			return status.HTTP_201_CREATED
 		return status.HTTP_409_CONFLICT	#Conflict here is that the given tag name already exists
@@ -155,7 +155,7 @@ class Question(Resource):
 		if is_accessible(usn,question_id):
 			if not question_attempted(usn,question_id):
 				cur = mysql.connection.cursor()
-				cur.execute("INSERT INTO Question_attempt (Student_ID,Question_ID) VALUES (%s,%s)",(usn,question_id))
+				cur.execute("INSERT INTO Question_attempt (Student_ID,Question_ID) VALUES ('%s','%s')",(usn,question_id))
 				mysql.connection.commit()
 				cur.close()
 			cur = mysql.connection.cursor()
@@ -240,7 +240,7 @@ class Question(Resource):
 			for test_case in test_cases:
 				fp.write(test_case)
 		cur = mysql.connection.cursor()
-		cur.execute("UPDATE Questions SET List_Testcases_Pathway=%s,Description_Pathway=%s WHERE Description_Pathway='unassigned'",("questions/"+q_id+"/testcases.txt","questions/"+q_id+"/description.txt"))
+		cur.execute("UPDATE Questions SET List_Testcases_Pathway='%s',Description_Pathway='%s' WHERE Description_Pathway='unassigned'",("questions/"+q_id+"/testcases.txt","questions/"+q_id+"/description.txt"))
 		cur.connection.commit()
 		cur.close()	
 		return status.HTTP_201_CREATED
@@ -269,7 +269,7 @@ class Exam(Resource):
 		question_ids = details["Question_IDs"]
 		for question_id in question_ids:
 			cur = mysql.connection.cursor()
-			cur.execute("INSERT INTO Exam_contents (Question_ID,Exam_ID) values (%s,%s)",(question_id,exam_id))
+			cur.execute("INSERT INTO Exam_contents (Question_ID,Exam_ID) values ('%s','%s')",(question_id,exam_id))
 			response = cur.fetchall()
 			cur.close()	
 		return status.HTTP_201_CREATED
@@ -282,7 +282,7 @@ class Exam(Resource):
 		usns = details["Student_IDs"]
 		for student_id in student_ids:
 			cur = mysql.connection.cursor()
-			cur.execute("INSERT INTO Exam_attempt (Student_ID,Exam_ID) values (%s,%s)",(student_id,exam_id))
+			cur.execute("INSERT INTO Exam_attempt (Student_ID,Exam_ID) values ('%s','%s')",(student_id,exam_id))
 			response = cur.fetchall()
 			cur.close()	
 		return status.HTTP_201_CREATED
