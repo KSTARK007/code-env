@@ -1,4 +1,5 @@
 from helper_functions import *
+import os
 
 class Student(Resource):
 	# Get relevant details of a student
@@ -7,7 +8,7 @@ class Student(Resource):
 		if student_exists(usn):
 			cur = mysql.connection.cursor()
 			cur.execute("SELECT * FROM Student WHERE Student_ID="+usn)
-			response = cursor.fetchone()
+			response = cur.fetchone()
 			cur.close()
 			return jsonify(data=response), status.HTTP_200_OK
 		return status.HTTP_404_NOT_FOUND
@@ -36,7 +37,7 @@ class Faculty(Resource):
 		if faculty_exists(f_id):
 			cur = mysql.connection.cursor()
 			cur.execute("SELECT * FROM Faculty WHERE Faculty_ID="+f_id)
-			response = cursor.fetchone()
+			response = cur.fetchone()
 			cur.close()
 			return jsonify(data=response), status.HTTP_200_OK
 		return status.HTTP_404_NOT_FOUND
@@ -63,7 +64,7 @@ class Tag(Resource):
 	def get_tag_suggestion(self,partial_name):
 		cur = mysql.connection.cursor()
 		cur.execute("SELECT Tag_name FROM Tags WHERE Tag_Name LIKE "+partial_name)
-		response = cursor.fetchall()
+		response = cur.fetchall()
 		cur.close()	
 		return jsonify(data=response), status.HTTP_200_OK
 	#get the list of tags attempted by a student
@@ -72,7 +73,7 @@ class Tag(Resource):
 		if student_exists(usn):
 			cur = mysql.connection.cursor()
 			cur.execute("SELECT Tags.Tag_name FROM Tags,Question_attempt,Question_tag WHERE Question_attempt.Student_ID = "+usn+" AND Question_attempt.Question_ID = Question_tag.Question_ID AND Question_tag.Tag_ID = Tags.Tag_ID")
-			response = cursor.fetchall()
+			response = cur.fetchall()
 			cur.close()	
 			return jsonify(data=response),status.HTTP_200_OK
 		return status.HTTP_404_NOT_FOUND
@@ -83,7 +84,7 @@ class Tag(Resource):
 		if faculty_exists(f_id):
 			cur = mysql.connection.cursor()
 			cur.execute("SELECT Tags.Tag_name FROM Teaches,Tags,Question_attempt,Question_tag WHERE Teaches.Faculty_ID = "+f_id+" AND Question_attempt.Student_ID = Teaches.Student_ID AND Question_attempt.Question_ID = Question_tag.Question_ID AND Question_tag.Tag_ID = Tags.Tag_ID")
-			response = cursor.fetchall()
+			response = cur.fetchall()
 			cur.close()	
 			return jsonify(data=response),status.HTTP_200_OK
 		return status.HTTP_404_NOT_FOUND
@@ -112,14 +113,14 @@ class Question(Resource):
 		if is_accessible(question_id,usn):
 			cur = mysql.connection.cursor()
 			cur.execute("SELECT Description_Pathway FROM Question WHERE Question_ID="+question_id)
-			desc_path = cursor.fetchone()[0]
+			desc_path = cur.fetchone()[0]
 			cur.close()
 			desc = ""
 			with open(desc_path,"r") as fp:
 				desc = fp.read()
 			cur = mysql.connection.cursor()
 			cur.execute("SELECT Tags.Tag_name FROM Question_tag,Tags WHERE Question_Tag.Question_ID="+question_id+" AND Question_tag.Tag_ID = Tags.Tag_ID")
-			Tag = cursor.fetchone()[0]
+			Tag = cur.fetchone()[0]
 			cur.close()
 			return jsonify(data = [desc,tag]),status.HTTP_200_OK
 		return status.HTTP_401_UNAUTHORIZED	#Student not allowed to access the question
@@ -133,14 +134,14 @@ class Question(Resource):
 		if faculty_exists(f_id):
 			cur = mysql.connection.cursor()
 			cur.execute("SELECT Description_Pathway FROM Question WHERE Question_ID="+question_id)
-			desc_path = cursor.fetchone()[0]
+			desc_path = cur.fetchone()[0]
 			cur.close()
 			desc = ""
 			with open(desc_path,"r") as fp:
 				desc = fp.read()
 			cur = mysql.connection.cursor()
 			cur.execute("SELECT Tags.Tag_name FROM Question_tag,Tags WHERE Question_Tag.Question_ID="+question_id+" AND Question_tag.Tag_ID = Tags.Tag_ID")
-			Tag = cursor.fetchone()[0]
+			Tag = cur.fetchone()[0]
 			cur.close()
 			return jsonify(data = [desc,tag]),status.HTTP_200_OK
 		return status.HTTP_401_UNAUTHORIZED	#Not a faculty
@@ -159,7 +160,7 @@ class Question(Resource):
 				cur.close()
 			cur = mysql.connection.cursor()
 			cur.execute("SELECT List_testcases_Pathway FROM Question WHERE Question_ID="+question_id)
-			test_path = cursor.fetchone()[0]
+			test_path = cur.fetchone()[0]
 			cur.close()
 			desc = ""
 			cases = []
@@ -187,7 +188,7 @@ class Question(Resource):
 		if faculty_exists(f_id):
 			cur = mysql.connection.cursor()
 			cur.execute("SELECT List_testcases_Pathway FROM Question WHERE Question_ID="+question_id)
-			test_path = cursor.fetchone()[0]
+			test_path = cur.fetchone()[0]
 			cur.close()
 			desc = ""
 			cases = []
@@ -209,7 +210,40 @@ class Question(Resource):
 	# Post the details of a question and related test cases
 	@app.route('/add',methods=['POST'])
 	def post(self, faculty_id,*question_details):
-		pass
+		details = request.form
+		description = details["description"]
+		f_id = details["Faculty_ID"]
+		test_cases = details["test_cases"]
+		cur = mysql.connection.cursor()
+		cur.execute("INSERT INTO Questions (List_Testcases_Pathway,Description_Pathway,Faculty_ID) VALUES ('%s','%s','%s','%s')",("unassigned","unassigned",f_id))
+		cur.connection.commit()
+		cur.close()	
+		try:
+			os.stat("questions")
+		except:
+			os.mkdir("questions")
+		cur = mysql.connection.cursor()
+		cur.execute("SELECT Question_ID FROM Questions WHERE Description_Pathway = 'unassigned'")
+		q_id = cur.fetchone()[0]
+		cur.close()	
+		try:
+			os.stat("questions/"+q_id)
+		except:
+			os.mkdir("questions/"+q_id)
+		with open("questions/"+q_id+"/description.txt","w") as fp:
+			fp.write(description)
+		with open("questions/"+q_id+"/testcases.txt","w") as fp:
+			fp.write(str(len(test_cases)))
+			for test_case in test_cases:
+				tc = test_cases.split("\n")
+				fp.write(str(len(tc)))
+			for test_case in test_cases:
+				fp.write(test_case)
+		cur = mysql.connection.cursor()
+		cur.execute("UPDATE Questions SET List_Testcases_Pathway=%s,Description_Pathway=%s WHERE Description_Pathway='unassigned'",("questions/"+q_id+"/testcases.txt","questions/"+q_id+"/description.txt"))
+		cur.connection.commit()
+		cur.close()	
+		return status.HTTP_201_CREATED
 	
 class Exam(Resource):
 
@@ -222,7 +256,7 @@ class Exam(Resource):
 		if exam_allowed(usn,exam_id):
 			cur = mysql.connection.cursor()
 			cur.execute("SELECT Question_ID FROM Exam_contents WHERE Exam_ID = "+exam_id)
-			response = cursor.fetchall()
+			response = cur.fetchall()
 			cur.close()	
 			return jsonify(data=response),status.HTTP_200_OK
 		return status.HTTP_401_UNAUTHORIZED
@@ -236,7 +270,7 @@ class Exam(Resource):
 		for question_id in question_ids:
 			cur = mysql.connection.cursor()
 			cur.execute("INSERT INTO Exam_contents (Question_ID,Exam_ID) values (%s,%s)",(question_id,exam_id))
-			response = cursor.fetchall()
+			response = cur.fetchall()
 			cur.close()	
 		return status.HTTP_201_CREATED
 		
@@ -249,7 +283,7 @@ class Exam(Resource):
 		for student_id in student_ids:
 			cur = mysql.connection.cursor()
 			cur.execute("INSERT INTO Exam_attempt (Student_ID,Exam_ID) values (%s,%s)",(student_id,exam_id))
-			response = cursor.fetchall()
+			response = cur.fetchall()
 			cur.close()	
 		return status.HTTP_201_CREATED
 		
