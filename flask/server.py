@@ -56,15 +56,7 @@ class Faculty(Resource):
 		return status.HTTP_409_CONFLICT	#Conflict here is that the given faculty ID already exists
 	
 	
-class Tag(Resource,Student,Faculty):
-	"""
-	Inherits from class student and faculty
-	"""
-	def __init__(self):
-		Student.__init__()
-		Student.Resource = Resource
-		Faculty.__init__()
-		Faculty.Resource = Resource
+class Tag(Resource):
 	
 	#get the list of tags starting from a given set of letters
 	@app.route('/suggestion/<partial_name>',methods=['GET'])
@@ -109,17 +101,7 @@ class Tag(Resource,Student,Faculty):
 		return status.HTTP_409_CONFLICT	#Conflict here is that the given tag name already exists
 	
 	
-class Question(Resource,Student,Tag,Faculty):
-	"""
-	Inherits from class student and tag
-	"""
-	def __init__(self):
-		Student.__init__()
-		Student.Resource = Resource
-		Faculty.__init__()
-		Faculty.Resource = Resource
-		Tag.__init__()
-		Tag.Resource = Resource
+class Question(Resource):
 
 	# Get the description and tags of the question using post
 	@app.route('/description',methods=['POST'])
@@ -229,15 +211,7 @@ class Question(Resource,Student,Tag,Faculty):
 	def post(self, faculty_id,*question_details):
 		pass
 	
-class Exam(Resource,Question,Student):
-	"""
-	Inherits from class student and question
-	"""
-	def __init__(self):
-		Student.__init__()
-		Student.Resource = Resource
-		Question.__init__()
-		Question.Resource = Resource
+class Exam(Resource):
 
 	#get questions of an exam using post
 	@app.route('/questions',methods=['POST'])
@@ -280,13 +254,7 @@ class Exam(Resource,Question,Student):
 		return status.HTTP_201_CREATED
 		
 	
-class Submission(Resource,Question):
-	"""
-	Inherits from class question
-	"""
-	def __init__(self):
-		Question.__init__()
-		Question.Resource = Resource
+class Submission(Resource):
 
 	#gets the test cases and assigns the submission ID
 	@app.route('/receive',methods=['POST'])
@@ -303,14 +271,8 @@ class Submission(Resource,Question):
 		pass
 	
 	
-class Student_login(Resource,Student):
-	"""
-	Inherits from class student
-	"""
-	def __init__(self):
-		Student.__init__()
-		Student.Resource = Resource
-
+class Student_login(Resource):
+	
 	#Add or update login credentials details using post
 	@app.route('/update',methods=['POST'])
 	def update(self,username,srn,password):
@@ -324,13 +286,7 @@ class Student_login(Resource,Student):
 		pass
 	
 
-class Faculty_login(Resource,Faculty):
-	"""
-	Inherits from class faculty
-	"""
-	def __init__(self):
-		Faculty.__init__()
-		Faculty.Resource = Resource
+class Faculty_login(Resource):
 
 	#Add or update login credentials details using post
 	@app.route('/update',methods=['POST'])
@@ -344,15 +300,7 @@ class Faculty_login(Resource,Faculty):
 	def validate(self,usn,password):
 		pass
 	
-class Teaches(Resource,Student,Faculty):
-	"""
-	Inherits from class student and faculty
-	"""
-	def __init__(self):
-		Student.__init__()
-		Student.Resource = Resource
-		Faculty.__init__()
-		Faculty.Resource = Resource
+class Teaches(Resource):
 
 	#Get details of which subjects are taught by faculty to student
 	@app.route('/subject/<usn>/<f_id>',methods=['GET'])
@@ -379,20 +327,8 @@ class Teaches(Resource,Student,Faculty):
 			pass
 		pass
 
-class Analysis(Resource,Student,Exam,Faculty,Tag):
-	"""
-	Inherits from class student
-	"""
-	def __init__(self):
-		Student.__init__()
-		Student.Resource = Resource
-		Exam.__init__()
-		Exam.Resource = Resource
-		Faculty.__init__()
-		Faculty.Resource = Resource
-		Tag.__init__()
-		Tag.Resource = Resource
-
+class Analysis(Resource):
+	
 	#get the necessary data for student performance
 	@app.route('/student/<usn>',methods=['GET'])
 	def get_student_perf(self,usn):
