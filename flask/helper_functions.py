@@ -26,28 +26,15 @@ mysql = MySQL(app)
 
 
 """
-Student helper functions
+User helper functions
 """
 #Check if entered USN exists already
-def student_exists(usn):
+def user_exists(usn, user_type=None):
 	cur = mysql.connection.cursor()
-	cur.execute("SELECT * FROM Student WHERE Student_ID="+usn)
+	cur.execute(f"SELECT * FROM {user_type} WHERE {user_type}_ID='{usn}'")
 	response = cur.fetchone()
 	cur.close()
 	if response==None:
-		return 0
-	return 1
-
-"""
-Faculty helper functions
-"""
-#Check if entered faculty ID exists already
-def faculty_exists(self,f_id):
-	cur = mysql.connection.cursor()
-	cur.execute("SELECT * FROM Faculty WHERE Faculty_ID="+f_id)
-	response = cur.fetchall()
-	cur.close()
-	if response==None or len(response)==0:
 		return 0
 	return 1
 		
