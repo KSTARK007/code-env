@@ -1,5 +1,5 @@
 
-from flask import Flask
+from flask import Flask, request
 from flask_restful import reqparse, abort, Api, Resource
 from flask_mysqldb import MySQL
 from flask import jsonify
@@ -29,10 +29,10 @@ mysql = MySQL(app)
 Student helper functions
 """
 #Check if entered USN exists already
-def student_exists(self,usn):
+def student_exists(usn):
 	cur = mysql.connection.cursor()
 	cur.execute("SELECT * FROM Student WHERE Student_ID="+usn)
-	response = cursor.fetchone()
+	response = cur.fetchone()
 	cur.close()
 	if response==None:
 		return 0
@@ -45,7 +45,7 @@ Faculty helper functions
 def faculty_exists(self,f_id):
 	cur = mysql.connection.cursor()
 	cur.execute("SELECT * FROM Faculty WHERE Faculty_ID="+f_id)
-	response = cursor.fetchall()
+	response = cur.fetchall()
 	cur.close()
 	if response==None or len(response)==0:
 		return 0
@@ -57,7 +57,7 @@ Tag helper functions
 #check if a given tag ID exists
 def tag_exists(self,tag_id):
 	cur = mysql.connection.cursor()
-	cur.execute("SELECT * FROM Tags WHERE Tag_ID="tag_id)
+	cur.execute("SELECT * FROM Tags WHERE Tag_ID="+tag_id)
 	response = cursor.fetchone()
 	cur.close()	
 	if response == None:
@@ -77,7 +77,7 @@ def tag_attempted(self,tag_id,usn):
 	#Retrieve the tag ID of given tag name if existant. If not return -1
 def retrieve_tag(self,tag_name):
 	cur = mysql.connection.cursor()
-	cur.execute("SELECT Tag_ID FROM Tags WHERE Tag_name="tag_name)
+	cur.execute("SELECT Tag_ID FROM Tags WHERE Tag_name="+tag_name)
 	response = cursor.fetchone()
 	cur.close()	
 	if response == None or len(response)==0:
