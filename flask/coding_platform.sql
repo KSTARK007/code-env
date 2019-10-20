@@ -50,7 +50,6 @@ Department VARCHAR(30)
 
 
 CREATE TABLE Student_login(
-Student_username VARCHAR (25) NOT NULL UNIQUE,
 Student_password VARCHAR (20),
 Student_ID VARCHAR(14) REFERENCES Student(Student_ID) ON DELETE CASCADE,
 PRIMARY KEY(Student_ID)
@@ -61,7 +60,6 @@ PRIMARY KEY(Student_ID)
 
 
 CREATE TABLE Faculty_login(
-Faculty_username VARCHAR (25) NOT NULL UNIQUE ,
 Faculty_password VARCHAR (20),
 Faculty_ID VARCHAR(14) REFERENCES Faculty(Faculty_ID)  ON DELETE CASCADE,
 PRIMARY KEY(Faculty_ID)
@@ -100,14 +98,6 @@ PRIMARY KEY(Student_ID,Faculty_ID,Subject)
 /*teaches - (subject, student ID(fk - student), faculty ID(fk - faculty)) (pk)*/
 
 
-CREATE TABLE Tags(			/*tags = C,python,data structures,linked lists, Divide and conquer etc.*/
-Tag_ID SERIAL PRIMARY KEY,		/*Since it is tedious to fill in exam ID each time, hence auto incrementing is implemented with the help of Serial datatype*/
-Tag_Name VARCHAR (20) NOT NULL
-);
-
-/*tags - ID(pk), tag name*/
-
-
 CREATE TABLE Exam(
 Exam_ID SERIAL PRIMARY KEY,	
 Title VARCHAR(30),
@@ -119,9 +109,11 @@ Faculty_ID VARCHAR(14) REFERENCES Faculty(Faculty_ID) ON DELETE CASCADE
 
 
 CREATE TABLE Questions(
+Question_name VARCHAR(50),
 Question_ID SERIAL PRIMARY KEY,
 List_Testcases_Pathway VARCHAR (40),		/*Pathway to a text file containing the list of test cases for a given problem*/
 Description_Pathway VARCHAR(40),		/*Pathway to the file containing the question/problem statement*/
+Number_Testcases INT,
 Faculty_ID VARCHAR(15) REFERENCES Faculty (Faculty_ID) ON DELETE CASCADE
 );
 
@@ -130,8 +122,8 @@ Faculty_ID VARCHAR(15) REFERENCES Faculty (Faculty_ID) ON DELETE CASCADE
 
 CREATE TABLE Question_tag(
 Question_ID INT REFERENCES Questions(Question_ID) ON DELETE CASCADE,  
-Tag_ID INT  REFERENCES  Tags(Tag_ID) ON DELETE CASCADE,
-PRIMARY KEY(Question_ID,Tag_ID)
+Tag_name VARCHAR(30),
+PRIMARY KEY(Question_ID,Tag_name)
 );
 
 /*question tag - (question ID(fk - question), tag ID(fk - tag))(pk)*/

@@ -29,7 +29,7 @@ mysql = MySQL(app)
 User helper functions
 """
 #Check if entered USN exists already
-def user_exists(usn, user_type=None):
+def user_exists(usn, user_type):
 	cur = mysql.connection.cursor()
 	cur.execute(f"SELECT * FROM {user_type} WHERE {user_type}_ID='{usn}'")
 	response = cur.fetchone()
@@ -37,7 +37,29 @@ def user_exists(usn, user_type=None):
 	if response==None:
 		return 0
 	return 1
+
+def credential_exists(usn, password, user_type):
+	cur = mysql.connection.cursor()
+	cur.execute(f"SELECT * FROM {user_type}_login WHERE {user_type}_ID='{usn}' AND {user_type}_password='{password}'")
+	response = cur.fetchone()
+	cur.close()
+	if response==None:
+		return 0
+	return 1
 		
+def get_user_type(usn):
+	cur = mysql.connection.cursor()
+	cur.execute(f"SELECT * FROM Student WHERE Student_ID='{usn}'")
+	response_student = cur.fetchone()
+	cur.execute(f"SELECT * FROM Faculty WHERE Faculty_ID='{usn}'")
+	response_faculty = cur.fetchone()
+	cur.close()
+	if response_student!=None:
+		return "Student"
+	elif response_faculty!=None:
+		return "Faculty"
+	return None
+
 """
 Tag helper functions 
 """
