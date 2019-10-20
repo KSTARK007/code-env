@@ -174,7 +174,7 @@ class Question(Resource):
 			return response
 
 		cur = mysql.connection.cursor()
-		cur.execute(f"SELECT Description_Pathway, Number_Testcases FROM Questions WHERE Question_ID={q_id}")
+		cur.execute(f"SELECT Description_Pathway, Number_Testcases, Question_name FROM Questions WHERE Question_ID={q_id}")
 		result = cur.fetchone()
 		cur.close()
 
@@ -185,6 +185,7 @@ class Question(Resource):
 
 		response = {}
 		response["number_testcases"] = result[1]
+		response["name"] = result[2]
 		with open(result[0], "r") as file:
 			response["description"] = file.read()
 
@@ -246,10 +247,79 @@ class Question(Resource):
 		return response
 
 
+class Questions(Resource):
+	"""
+	send last=-1 to get the first 10
+	"""
+	def get(self):
+		details = request.form
+
+		last = int(details["Last"])
+		number = int(details["Number"])
+		tag = details["Tag"]
+		faculty = details["Faculty"]
+
+		questions = []
+
+		cur = mysql.connection.cursor()
+		tag_cur = mysql.connection.cursor()
+		query = f"SELECT * FROM Questions WHERE Question_ID>{number}" 
+		if faculty!="":
+			query = query+f" AND Questions.Faculty_ID='{faculty}'"
+		if tag!="":
+			query = query+f" AND Questions.Question_ID IN (SELECT Question_ID from Question_tag WHERE Tag_name='{tag}')"
+		query = query+f" ORDER BY Question_ID DESC LIMIT {number}"
+		print(query)
+		cur.execute(query)
+		row_count = cur.rowcount
+		for row_ind in range(row_count):
+			result = cur.fetchone()
+			tag_cur.execute(f"SELECT Tag_name from Question_tag WHERE Question_ID={result[1]}")
+			tags = []
+			for ind in range(tag_cur.rowcount):
+				tags.append(str(tag_cur.fetchone()[0]))
+			print(tags)
+			questions.append(
+				{ "name":result[0], "id":result[1], "number": result[4], "faculty": result[5], "tags": " ".join(tags) }
+				)
+		tag_cur.connection.commit()
+		cur.close()
+
+		response = jsonify(questions)
+		response.status_code = 200
+
+		return response
+
+class Testcase(Resource):
+	"""
+	-1: question id incorrect
+	-2: testcase number does not exist
+	"""
+	def get(self, q_id, file_type, t_num):
+		cur = mysql.connection.cursor()
+		cur.execute(f"SELECT * FROM Questions WHERE Question_ID={q_id}")
+		result = cur.fetchone()
+		if result==None or file_type not in ['op', 'ip']:
+			response = jsonify([-1])
+			response.status_code = 400
+			return response
+		if result[4]<int(t_num):
+			response = jsonify([-2])
+			response.status_code = 400
+			return response
+		return send_file(f"./Questions/{q_id}/{file_type}{t_num}.txt")
+
+
+
+
+
 api.add_resource(Student, "/codecouch/student/<usn>")
 api.add_resource(Faculty, "/codecouch/faculty/<f_id>")
 api.add_resource(Login, "/codecouch/login/")
 api.add_resource(Question, "/codecouch/question/")
+api.add_resource(Questions, "/codecouch/questions/")
+api.add_resource(Testcase, "/codecouch/testcases/<q_id>/<file_type>/<t_num>")
+
 
 
 if __name__=="__main__":
