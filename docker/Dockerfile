@@ -10,5 +10,5 @@ RUN apk add --update \
   && pip install pycrypto
 
 #COPY ./run.sh /run.sh
-COPY . .
+COPY ./Encryption.py /Encryption.py
 
