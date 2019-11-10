@@ -2,8 +2,6 @@ from helper_functions import *
 import os
 
 # TODO:
-# Questions
-# sendFile
 # submission
 
 class Login(Resource):
@@ -16,7 +14,7 @@ class Login(Resource):
 	1: faculty
 	"""
 	def get(self):
-		details = request.form
+		details = request.args
 		usn = details["Usn"]
 		password = details["Password"]
 		user_type = get_user_type(usn)
@@ -162,7 +160,7 @@ class Question(Resource):
 	-2: question does not exist
 	"""
 	def get(self):
-		details = request.form
+		details = request.args
 		q_id = details["Q_id"]
 		usn = details["Usn"]
 
@@ -252,7 +250,7 @@ class Questions(Resource):
 	send last=-1 to get the first 10
 	"""
 	def get(self):
-		details = request.form
+		details = request.args
 
 		last = int(details["Last"])
 		number = int(details["Number"])
@@ -309,7 +307,12 @@ class Testcase(Resource):
 			return response
 		return send_file(f"./Questions/{q_id}/{file_type}{t_num}.txt")
 
+class Submission(Resource):
+	"""
 
+	"""
+	def get(self):
+		pass
 
 
 
