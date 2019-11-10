@@ -1,3 +1,12 @@
+#!/bin/sh
+echo
+echo 
+echo
+echo "DOCKER"
+echo
+echo
+echo
+echo
 echo "Uninstall old versions"
 echo
 
