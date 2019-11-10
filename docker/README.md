@@ -2,6 +2,7 @@
 To be done.
 
 # Docker usage 
+- Run `./install_docker.sh` to install docker (only for the first time). 
 - Building the docker `sudo docker image build -t test:1.0 .`
 - runing an intractive docker `sudo docker run -i -t test:1.0`
 
