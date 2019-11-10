@@ -1,6 +1,10 @@
 # Core Part
 To be done.
 
+# Docker usage 
+- Building the docker `sudo docker image build -t test:1.0 .`
+- runing an intractive docker `sudo docker run -i -t test:1.0`
+
 # Encryption part
 All the files are encrypted and decrypted, using a symmetric cipher using AES and hased using MD5.
 
