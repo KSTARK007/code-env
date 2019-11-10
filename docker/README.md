@@ -11,17 +11,23 @@ Operating system interface and System specific parameters were used accordingly.
 - 1st argument : E for encryption and D for Decryption
 - 2nd argument with E (optional) :  If filename mentioned then encrypt it else encrypt all the files in the current dir.
 
-example: 
+example:
+
 ` python main.py E test.txt` 
+
 output - Securedtest.txt 
 
 
 ` python main.py E`
+
 All files in the dir are encrypted with `Secured` keyword prepended.
 
 - 2nd argument with D = filename with `Secured` keyword prepended.
+
 example:
+
 `python main.py D Securedtest.txt`
+
 output - test.txt
 ## Important:
 
