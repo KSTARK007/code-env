@@ -22,7 +22,7 @@ output - Securedtest.txt
 
 All files in the dir are encrypted with `Secured` keyword prepended.
 
-- 2nd argument with D = filename with `Secured` keyword prepended.
+- 2nd argument with D : filename with `Secured` keyword prepended.
 
 example:
 
