@@ -58,20 +58,17 @@ def allfiles():
                         allFiles.append(os.path.join(root, names))
         return allFiles
  
-print ""
 try:
     choice = sys.argv[1]
 except Exception as e:
     print("1st Arg is E or D")
     print("2nd Arg is file name for Encryption or Decryption")
     sys.exit(0)
-print ""
 password = "randomsentence"
  
 encFiles = allfiles()
  
 if choice == "E":
-        print ""
         subchoice = "N"
         if(not(len(sys.argv) == 3)):
         	subchoice = "Y"
@@ -88,7 +85,6 @@ if choice == "E":
                         print "Done Encryption %s" %str(Tfiles)
                         #os.remove(Tfiles)
         else:
-            print ""
             filename = sys.argv[2]
             if not os.path.exists(filename):
                 print "Given file does not exist"
@@ -98,7 +94,7 @@ if choice == "E":
                 sys.exit()
             else:
                 encrypt(MD5.new(password).digest(), filename)
-                print "Done Encryption %s" %filename
+                print("Done Encryption %s" %filename)
                 #os.remove(filename)
              
 elif choice == "D":
@@ -108,17 +104,16 @@ elif choice == "D":
         print ""
         filename = sys.argv[2]
         if not os.path.exists(filename):
-            print "Given file does not exist"
+            print("Given file does not exist")
             sys.exit(0)
         elif not filename.startswith("Secured"):
-            print "%s is was never encrypted" %filename
+            print("%s is was never encrypted" %filename)
             sys.exit()
         else:
             decrypt(MD5.new(password).digest(), filename)
-            print "Done Decryption %s" %filename
+            print("Done Decryption %s" %filename)
             os.remove(filename)
 
 else:
-        print ""
-        print "Please choose a valid command. Either E or D as first argument"
+        print("Please choose a valid command. Either E or D as first argument")
         sys.exit()
