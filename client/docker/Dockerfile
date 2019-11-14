@@ -8,7 +8,8 @@ RUN apk add --update \
     py-pip \
     build-base \
   && pip install pycrypto
+RUN apk add curl
 
-#COPY ./run.sh /run.sh
-COPY ./Encryption.py /Encryption.py
+COPY ./run.sh /run.sh
+#COPY ./Encryption.py /Encryption.py
 
