@@ -309,10 +309,33 @@ class Testcase(Resource):
 
 class Submission(Resource):
 	"""
-
+		-1: usn does not exist
+		-2: question does not exist
 	"""
-	def get(self):
-		pass
+	def post(self, q_id, usn):
+		files = request.files
+		details = request.form
+
+		language = details["form"]
+
+		user_type = get_user_type(usn)
+
+		if user_type==None:
+			response = jsonify([-1])
+			response.status_code = 400
+			return response
+
+		cur = mysql.connection.cursor()
+		cur.execute(f"SELECT Number_Testcases FROM Questions WHERE Question_ID={q_id}")
+		result = cur.fetchone()
+		cur.close()
+
+		if result==None:
+			response = jsonify([-2])
+			response.status_code = 400
+			return response
+
+		number_testcases = result[0]
 
 
 
@@ -322,6 +345,7 @@ api.add_resource(Login, "/codecouch/login/")
 api.add_resource(Question, "/codecouch/question/")
 api.add_resource(Questions, "/codecouch/questions/")
 api.add_resource(Testcase, "/codecouch/testcases/<q_id>/<file_type>/<t_num>")
+api.add_resource(Submission, "/codecouch/submission/<q_id>/<usn>")
 
 
 
