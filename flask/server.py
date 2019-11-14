@@ -361,7 +361,9 @@ class Submission(Resource):
 		details = request.form
 
 		language = details["language"]
-		status = details["status"]
+		statuses = [int(val)for val in details["status"].split("_") if val!='']
+		status = len([a for a in statuses if a==0])
+		statuses = " ".join([str(a) for a in statuses])
 
 		user_type = get_user_type(usn)
 
@@ -409,7 +411,7 @@ class Submission(Resource):
 		files["code"].save(file_path+"code."+extension[language])
 
 		with open(file_path+"logs", "a") as logs:
-			logs.write(f"{status}\n")
+			logs.write(f"{statuses}\n")
 
 		response = jsonify([result_val])
 		response.status_code = 200
