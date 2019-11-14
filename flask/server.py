@@ -447,11 +447,19 @@ class StudentAnalysis(Resource):
 			minicur.close
 
 			minicur = mysql.connection.cursor()
+			minicur.execute(f"SELECT Description_Pathway, Question_name FROM Questions WHERE Question_ID={q_id}")
+			path,name = minicur.fetchone()
+			print(path)
+			with open(path) as file:
+				desc = file.read()
+			minicur.close
+
+			minicur = mysql.connection.cursor()
 			minicur.execute(f"SELECT avg(Correct_testcases) FROM Submissions WHERE Question_ID='{q_id}'")
 			avg = minicur.fetchone()[0]
 			minicur.close
 
-			analysis[q_id] = {"score":score, 'class_avg':str(class_avg), 'avg': str(avg)}
+			analysis[q_id] = {"score":score, 'class_avg':str(class_avg), 'avg': str(avg), "name":name, "desc":desc}
 
 		cur.close()
 
