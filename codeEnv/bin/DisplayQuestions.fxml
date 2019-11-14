@@ -19,10 +19,12 @@
             </AnchorPane>
             <AnchorPane layoutY="59.0" prefHeight="1000.0" prefWidth="1024.0">
                <children>
-                  <ListView fx:id="QuestionsList" layoutX="63.0" layoutY="94.0" prefHeight="1421.0" prefWidth="800.0" />
+                  <ListView fx:id="QuestionsList" layoutX="63.0" layoutY="94.0" prefHeight="880.0" prefWidth="800.0" />
                   <Text layoutX="69.0" layoutY="47.0" scaleX="2.0" scaleY="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Questions" />
                </children>
             </AnchorPane>
+            <Button layoutX="378.0" layoutY="1119.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Previous" />
+            <Button layoutX="489.0" layoutY="1119.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Next" />
          </children></AnchorPane>
   </content>
 </ScrollPane>

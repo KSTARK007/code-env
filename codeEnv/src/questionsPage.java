@@ -42,19 +42,48 @@ import rest.RestClient;
 public class questionsPage implements Initializable {
 	@FXML
 	public ListView<AnchorPane> QuestionsList;
-
+	
+	@FXML
+	public Button previous,next;
+	
+	int firstId = 0,lastId = 10,perPageQuestions=10;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		loadDefaultDisp();
+		loadQuestions(firstId,lastId);
 		
+		//Event handler for previous button
+		EventHandler<ActionEvent> previousEvent = new EventHandler<ActionEvent>() { 
+            public void handle(ActionEvent e) 
+            { 
+            	if(firstId>0)
+            	{	
+            		QuestionsList.getItems().clear();
+            		firstId-=perPageQuestions;	            	
+	            	lastId-=perPageQuestions;
+	            	loadQuestions(firstId,lastId);
+	            	
+            	}
+            } 
+        };
+        
+      //Event handler for next button
+      		EventHandler<ActionEvent> nextEvent = new EventHandler<ActionEvent>() { 
+                  public void handle(ActionEvent e) 
+                  {                   
+                  		QuestionsList.getItems().clear();
+                  		firstId-=perPageQuestions;	            	
+      	            	lastId-=perPageQuestions;
+      	            	loadQuestions(firstId,lastId);
+      	            	
+                  	}                  
+              };
 	}
 	
-	public void loadDefaultDisp() {
+	public void loadQuestions(int first,int last) {
 		String serviceUrl =  "http://127.0.0.1:5000/codecouch/questions/";
-		int start = -1;
-		int last = 3;
 		String faculty = "f1";
-		String parameters = "Last="+start+"&Number="+last+"&Tag=&Faculty="+faculty;
+		String parameters = "First="+first+"&Number="+last+"&Tag=&Faculty="+faculty;
 		String GET = "GET";
 		String POST = "POST";
 		
