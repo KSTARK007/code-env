@@ -247,12 +247,12 @@ class Question(Resource):
 
 class Questions(Resource):
 	"""
-	send last=-1 to get the first 10
+	send first=-1 to get the first 10
 	"""
 	def get(self):
 		details = request.args
 
-		last = int(details["Last"])
+		first = int(details["First"])
 		number = int(details["Number"])
 		tag = details["Tag"]
 		faculty = details["Faculty"]
@@ -261,7 +261,7 @@ class Questions(Resource):
 
 		cur = mysql.connection.cursor()
 		tag_cur = mysql.connection.cursor()
-		query = f"SELECT * FROM Questions WHERE Question_ID>{number}" 
+		query = f"SELECT * FROM Questions WHERE Question_ID>{first}" 
 		if faculty!="":
 			query = query+f" AND Questions.Faculty_ID='{faculty}'"
 		if tag!="":
@@ -272,6 +272,7 @@ class Questions(Resource):
 		row_count = cur.rowcount
 		for row_ind in range(row_count):
 			result = cur.fetchone()
+			print("res ",result)
 			tag_cur.execute(f"SELECT Tag_name from Question_tag WHERE Question_ID={result[1]}")
 			tags = []
 			for ind in range(tag_cur.rowcount):
