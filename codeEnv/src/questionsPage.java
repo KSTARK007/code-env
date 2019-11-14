@@ -44,16 +44,18 @@ public class questionsPage implements Initializable {
 	public ListView<AnchorPane> QuestionsList;
 	
 	@FXML
-	public Button previous,next;
+	public Button previous;
+	@FXML
+	public Button next;
 	
 	int firstId = 0,lastId = 10,perPageQuestions=10;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		loadQuestions(firstId,lastId);
+		loadQuestions(firstId,lastId,0);
 		
 		//Event handler for previous button
-		EventHandler<ActionEvent> previousEvent = new EventHandler<ActionEvent>() { 
+		EventHandler<ActionEvent> previousButtonEvent = new EventHandler<ActionEvent>() { 
             public void handle(ActionEvent e) 
             { 
             	if(firstId>0)
@@ -61,26 +63,40 @@ public class questionsPage implements Initializable {
             		QuestionsList.getItems().clear();
             		firstId-=perPageQuestions;	            	
 	            	lastId-=perPageQuestions;
-	            	loadQuestions(firstId,lastId);
+	            	loadQuestions(firstId,lastId,0);
 	            	
             	}
             } 
         };
         
+        previous.setOnAction(previousButtonEvent);
+        
       //Event handler for next button
-      		EventHandler<ActionEvent> nextEvent = new EventHandler<ActionEvent>() { 
+      		EventHandler<ActionEvent> nextButtonEvent = new EventHandler<ActionEvent>() { 
                   public void handle(ActionEvent e) 
-                  {                   
-                  		QuestionsList.getItems().clear();
-                  		firstId-=perPageQuestions;	            	
-      	            	lastId-=perPageQuestions;
-      	            	loadQuestions(firstId,lastId);
+                  {                                     		
+                  		firstId+=perPageQuestions;	            	
+      	            	lastId+=perPageQuestions;
+      	            	int res = loadQuestions(firstId,lastId,1);
+      	            	
+      	            	/*
+      	            	 * If  page was not updated then undo updation*/
+      	            	if(res==0)
+      	            	{
+      	            		firstId-=perPageQuestions;	            	
+          	            	lastId-=perPageQuestions;
+          	            	System.out.println("Debug: Page didn't update\n");
+      	            	}
       	            	
                   	}                  
               };
+              next.setOnAction(nextButtonEvent);
+            
 	}
-	
-	public void loadQuestions(int first,int last) {
+	/*
+	 * 
+	 * */
+	public int loadQuestions(int first,int last,int testForClear) {
 		String serviceUrl =  "http://127.0.0.1:5000/codecouch/questions/";
 		String faculty = "f1";
 		String parameters = "First="+first+"&Number="+last+"&Tag=&Faculty="+faculty;
@@ -103,11 +119,22 @@ public class questionsPage implements Initializable {
 		
 		JSONArray responseArray =  (JSONArray) obj;
 		Iterator<String> itr = responseArray.iterator();
+		if(testForClear==1)
+		{
+			if(responseArray.size()==0)
+				return 0;
+			else
+			{
+				QuestionsList.getItems().clear();
+			}
+		}
+		
 		while(itr.hasNext()){         
 		    obj = itr.next();
 		    JSONObject question = (JSONObject) obj;
 		    addProblem(question.get("name").toString(),question.get("tags").toString(),question.get("tags").toString());		    
 		}	
+		return 1;
 	}
 	
 	public void addProblem(String name,String tags,String id) {
