@@ -32,5 +32,8 @@ for b in range(len(questions)):
 	studs = random.sample(range(1, n_students), n_submissions_q)
 
 	for stud in studs:
-		a = "_".join([str(random.randint(-3, 0)) for _ in range(n_testcases[b])])
+		splitting = random.randint(0, n_testcases[b])
+		l = [str(random.randint(-3, 0)) for _ in range(splitting)] + ["0" for _ in range(n_testcases[b]-splitting)]
+		random.shuffle(l)
+		a = "_".join(l)
 		print(f"curl -X POST -F 'language={random.choice(lang)}' -F 'status={a}' -F 'code=@code' http://127.0.0.1:5000/codecouch/submission/{b+1}/s{stud}")

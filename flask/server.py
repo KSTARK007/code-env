@@ -417,7 +417,47 @@ class Submission(Resource):
 		response.status_code = 200
 		return response
 		
+class StudentAnalysis(Resource):
+	def get(self, usn):
+		user_type = get_user_type(usn)
 
+		if user_type==None:
+			response = jsonify([-1])
+			response.status_code = 400
+			return response
+
+		cur = mysql.connection.cursor()
+		cur.execute(f"SELECT Batch, Section FROM Student WHERE Student_ID='{usn}'")
+		batch, section = cur.fetchone()
+		cur.close()
+
+		analysis = {}
+
+		cur = mysql.connection.cursor()
+		cur.execute(f"SELECT Question_ID, Correct_testcases FROM Submissions WHERE Student_ID='{usn}'")
+		row_count = cur.rowcount
+		for row_ind in range(row_count):
+			result = cur.fetchone()
+			q_id = result[0]
+			score = result[1]
+
+			minicur = mysql.connection.cursor()
+			minicur.execute(f"SELECT avg(Correct_testcases) FROM Submissions su, Student st WHERE su.Question_ID='{q_id}' and st.Batch={batch} and st.Section='{section}' and st.Student_ID=su.Student_ID")
+			class_avg = minicur.fetchone()[0]
+			minicur.close
+
+			minicur = mysql.connection.cursor()
+			minicur.execute(f"SELECT avg(Correct_testcases) FROM Submissions WHERE Question_ID='{q_id}'")
+			avg = minicur.fetchone()[0]
+			minicur.close
+
+			analysis[q_id] = {"score":score, 'class_avg':str(class_avg), 'avg': str(avg)}
+
+		cur.close()
+
+		response = jsonify([analysis])
+		response.status_code = 200
+		return response
 
 
 
@@ -429,6 +469,7 @@ api.add_resource(Question, "/codecouch/question/")
 api.add_resource(Questions, "/codecouch/questions/")
 api.add_resource(Testcase, "/codecouch/testcases/<q_id>/<file_type>/<t_num>")
 api.add_resource(Submission, "/codecouch/submission/<q_id>/<usn>")
+api.add_resource(StudentAnalysis, "/codecouch/student/analysis/<usn>")
 
 
 
