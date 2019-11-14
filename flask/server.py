@@ -309,14 +309,58 @@ class Testcase(Resource):
 
 class Submission(Resource):
 	"""
+		-1: compilation error
+		-2: user does not exist
+		-3: question does not exits
+		n: number of passed test cases
+	"""
+	def get(self, q_id, usn):
+		user_type = get_user_type(usn)
+
+		if user_type==None:
+			response = jsonify([-2])
+			response.status_code = 400
+			return response
+
+		cur = mysql.connection.cursor()
+		cur.execute(f"SELECT Number_Testcases FROM Questions WHERE Question_ID={q_id}")
+		result = cur.fetchone()
+		cur.close()
+
+		if result==None:
+			response = jsonify([-3])
+			response.status_code = 400
+			return response
+
+		result_val = 0
+		cur = mysql.connection.cursor()
+		cur.execute(f"SELECT Correct_testcases FROM Submissions WHERE Question_ID={q_id} and Student_ID='{usn}'")
+		result = cur.fetchone()
+		cur.close()
+
+		if result!=None:
+			result_val = result[0]
+
+		response = jsonify([result_val])
+		response.status_code = 200
+		return response
+
+
+
+	"""
 		-1: usn does not exist
 		-2: question does not exist
+		0: no update
+		1: updated
 	"""
 	def post(self, q_id, usn):
+		extension = {"cpp": "cpp", "c": "c", "python": "py"}
+
 		files = request.files
 		details = request.form
 
-		language = details["form"]
+		language = details["language"]
+		status = details["status"]
 
 		user_type = get_user_type(usn)
 
@@ -335,7 +379,43 @@ class Submission(Resource):
 			response.status_code = 400
 			return response
 
-		number_testcases = result[0]
+		cur = mysql.connection.cursor()
+		cur.execute(f"SELECT Correct_testcases FROM Submissions WHERE Question_ID={q_id} and Student_ID='{usn}'")
+		result = cur.fetchone()
+		cur.close()
+
+		result_val = 0
+		cur = mysql.connection.cursor()
+		if result!=None:
+			if int(result[0])<int(status):
+				result_val = 1
+				cur.execute(f"UPDATE Submissions SET Correct_testcases={status}, Language='{language}' WHERE Question_ID={q_id} and Student_ID='{usn}'")
+
+		else:
+			cur.execute(f"INSERT INTO Submissions(Student_ID, Question_ID, Correct_testcases, Language) VALUES ('{usn}', {q_id}, {status}, '{language}')")
+		
+		cur.connection.commit()
+		cur.close()
+
+		file_path = f"./Submissions/{q_id}_{usn}/"
+		try:
+			os.stat(file_path)
+		except:
+			os.mkdir(file_path)
+			open(file_path+"logs", "a").close()
+			open(file_path+"code."+extension[language], "a").close()
+
+		files["code"].save(file_path+"code."+extension[language])
+
+		with open(file_path+"logs", "a") as logs:
+			logs.write(f"{status}\n")
+
+		response = jsonify([result_val])
+		response.status_code = 200
+		return response
+		
+
+
 
 
 
