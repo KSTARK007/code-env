@@ -467,6 +467,30 @@ class StudentAnalysis(Resource):
 		response.status_code = 200
 		return response
 
+class FacultyAnalysis(Resource):
+	def get(self, q_id):
+		analysis = []
+
+		cur = mysql.connection.cursor()
+		cur.execute(f"SELECT number_testcases from Questions where Question_ID={q_id}") 
+		mx = cur.fetchone()[0]
+		analysis.append(mx)
+		cur.close()
+		
+
+		cur = mysql.connection.cursor()
+		cur.execute(f"SELECT st.Student_ID, st.Student_Name, st.Batch, st.Section, su.Correct_testcases FROM Submissions su, Student st WHERE su.Question_ID='{q_id}' and su.Student_ID=st.Student_ID")
+		row_count = cur.rowcount
+		for row_ind in range(row_count):
+			result = list(cur.fetchone())
+			result[2] = str(result[2])
+			analysis.append(result)
+
+		cur.close()
+
+		response = jsonify([analysis])
+		response.status_code = 200
+		return response
 
 
 
@@ -477,7 +501,7 @@ api.add_resource(Question, "/codecouch/question/")
 api.add_resource(Questions, "/codecouch/questions/")
 api.add_resource(Testcase, "/codecouch/testcases/<q_id>/<file_type>/<t_num>")
 api.add_resource(Submission, "/codecouch/submission/<q_id>/<usn>")
-api.add_resource(StudentAnalysis, "/codecouch/student/analysis/<usn>")
+api.add_resource(FacultyAnalysis, "/codecouch/faculty/analysis/<q_id>")
 
 
 
