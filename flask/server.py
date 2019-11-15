@@ -404,7 +404,7 @@ class Submission(Resource):
 		try:
 			os.stat(file_path)
 		except:
-			os.mkdir(file_path)
+			os.makedirs(file_path)
 			open(file_path+"logs", "a").close()
 			open(file_path+"code."+extension[language], "a").close()
 
