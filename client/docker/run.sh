@@ -10,6 +10,7 @@
 path='/information';
 problem_id=$1;
 language=$2;
+timilimit=$3
 n_test_cases=$(ls $path/$problem_id/test_cases/ip* | wc | awk '{print $1}');
 
 # clearing out all the existing files
@@ -34,7 +35,7 @@ then
 	do
 		# execute the exec file for x seconds after which it will be terminated 
 		# take input from the file and output it to a different file
-		timeout 1 $path/$problem_id/codes/a.out < $path/$problem_id/test_cases/ip$i > $path/$problem_id/test_cases/currop
+		timeout $timilimit $path/$problem_id/codes/a.out < $path/$problem_id/test_cases/ip$i > $path/$problem_id/test_cases/currop
 		
 		if [[ $? -ne 0 ]]
 		then
@@ -69,7 +70,7 @@ then
 
 	for i in $(seq 1 $n_test_cases);
 	do
-		timeout 1 $path/$problem_id/codes/a.out < $path/$problem_id/test_cases/ip$i > $path/$problem_id/test_cases/currop
+		timeout $timilimit $path/$problem_id/codes/a.out < $path/$problem_id/test_cases/ip$i > $path/$problem_id/test_cases/currop
 		
 		if [[ $? -ne 0 ]]
 		then
@@ -94,7 +95,7 @@ if [[ $language == "python" ]]
 then
 	for i in $(seq 1 $n_test_cases);
 	do
-		timeout 1 python3 $path/$problem_id/codes/code < $path/$problem_id/test_cases/ip$i > $path/$problem_id/test_cases/currop 2>> $path/$problem_id/logs/compilation_error
+		timeout $timilimit python3 $path/$problem_id/codes/code < $path/$problem_id/test_cases/ip$i > $path/$problem_id/test_cases/currop 2>> $path/$problem_id/logs/compilation_error
 		
 		error=$?;
 

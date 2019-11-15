@@ -28,4 +28,15 @@
 
 # curl -w "%{http_code}\n" -X GET -d "Last=-1&Number=4&Tag=&Faculty=f3" http://127.0.0.1:5000/codecouch/questions/
 
-curl -w "%{http_code}\n" -X GET http://127.0.0.1:5000/codecouch/testcases/8/ip/2
+# curl -w "%{http_code}\n" -X GET http://127.0.0.1:5000/codecouch/testcases/8/ip/2
+
+curl -w "%{http_code}\n" -X POST -F 'Usn=f1' -F 'Question_name=Binary Search' \
+-F 'Tags=algo ds' \
+-F 'description=@./description' \
+-F 'op1=@./op1' \
+-F 'op2=@./ip2' \
+-F 'op3=@./ip3' \
+-F 'ip1=@./ip1' \
+-F 'ip2=@./ip2' \
+-F 'ip3=@./ip3' \
+http://127.0.0.1:5000/codecouch/question/
