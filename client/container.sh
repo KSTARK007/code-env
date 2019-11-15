@@ -11,7 +11,7 @@ language=$2;
 timelimit=$3;
 usn=$4;
 
-docker run -v ~/Documents/Sem7/ProjSE/client/information:/information -p 8080:8080 coder ./run.sh $problem_id $language $timelimit
+docker run -v ~/eclipse-workspace/client/information:/information -p 8080:8080 coder ./run.sh $problem_id $language $timelimit
 
 codelocation='code=@./information/'$problem_id'/codes/code'
 output=$(cat ./information/$problem_id/logs/test_cases_output | tr "\n" "_")
