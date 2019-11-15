@@ -74,7 +74,7 @@ public class SolveCodeController implements Initializable {
             { 
             	//load test cases
             	Process p;
-            	
+            
             	try {
             		System.out.println("id is "+studentId+" here");
             		String[] cmd = { "/bin/sh", questionScrPath,questionId,studentId};

@@ -163,7 +163,7 @@ class Question(Resource):
 		details = request.args
 		q_id = details["Q_id"]
 		usn = details["Usn"]
-		print(q_id)
+
 		user_type = get_user_type(usn)
 
 		if user_type==None:
