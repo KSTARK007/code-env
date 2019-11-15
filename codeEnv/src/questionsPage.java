@@ -132,13 +132,13 @@ public class questionsPage implements Initializable {
 		while(itr.hasNext()){         
 		    obj = itr.next();
 		    JSONObject question = (JSONObject) obj;
-		    addProblem(question.get("name").toString(),question.get("tags").toString(),question.get("tags").toString());		    
+		    addProblem(question.get("name").toString(),question.get("tags").toString(),question.get("id").toString());		    
 		}	
 		return 1;
 	}
 	
 	public void addProblem(String name,String tags,String id) {
-		
+		System.out.println("id is "+id);
 	
 		AnchorPane anchorpane = new AnchorPane();
 		

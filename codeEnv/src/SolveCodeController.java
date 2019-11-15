@@ -1,5 +1,10 @@
 
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -9,6 +14,8 @@ import org.json.simple.parser.ParseException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -22,24 +29,32 @@ public class SolveCodeController implements Initializable {
 	
 	@FXML
 	private ComboBox<String> languages;
-	ObservableList<String> options = FXCollections.observableArrayList("C++","C","Python","Java");
+	ObservableList<String> options = FXCollections.observableArrayList("cpp","c","python","java");
 	@FXML 
-	TextArea input;
+	TextArea description,editor;
 	@FXML
 	Button reset;
 	@FXML
-	Button fullscreen;
+	Button fullscreen,submit;
 	private  String questionId;
+	String studentId = "s1";
+	private String clientDir = "/home/adarsh/eclipse-workspace/client/";
+	private String questionScrPath = clientDir+ "question.sh";
+	private String containerScrPath =  clientDir+"container.sh";
+	private String codeDirectory = "/home/adarsh/eclipse-workspace/codeEnv/information/";
+	private String timeout = "1"; 
 	
 	public void setQuestionId(String questionId) {
 		this.questionId = questionId;
+		loadQuestion();
+		//this.studentId has to come here
 	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		languages.setItems(options);
-		
+		languages.setValue(options.get(0));
 		ImageView imageViewReset = new ImageView(new Image("reload.jpg"));
 		imageViewReset.setFitHeight(18);
 		imageViewReset.setFitWidth(18);
@@ -51,7 +66,70 @@ public class SolveCodeController implements Initializable {
 		imageViewfs.setFitWidth(18);
 		fullscreen.setGraphic(imageViewfs);
 		
-		RestClient client = new RestClient("http://127.0.0.1:5000/codecouch/question/", "Usn=s1&Q_id=1", "GET");
+		
+		
+		//Event handler for submit button
+		EventHandler<ActionEvent> submitButtonEvent = new EventHandler<ActionEvent>() { 
+            public void handle(ActionEvent e) 
+            { 
+            	//load test cases
+            	Process p;
+            	
+            	try {
+            		System.out.println("id is "+studentId+" here");
+            		String[] cmd = { "/bin/sh", questionScrPath,questionId,studentId};
+					p = Runtime.getRuntime().exec(cmd);
+					p.waitFor(); 
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            	
+            	//write the code to file
+            	try {
+					writeUsingFileWriter();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            	
+            	//run container
+				  try 
+				  	{
+						  String[] cmd = { "/bin/sh", containerScrPath,questionId,languages.getValue(),timeout,studentId,getExtension()}; 
+						  System.out.println(languages.getValue()+" lang is ");
+						  p = Runtime.getRuntime().exec(cmd);
+						  p.waitFor();
+						  BufferedReader reader=new BufferedReader(new InputStreamReader(p.getInputStream())); 
+						  String line; 
+						  while((line = reader.readLine()) != null) 
+						  { 
+								System.out.println(line);
+						  } 
+				  	}
+				  catch (Exception e1) { 
+					  // TODO Auto-generated catch block
+					  e1.printStackTrace();
+				  }
+				  
+				 
+            	
+            	
+            } 
+        };
+        
+        submit.setOnAction(submitButtonEvent);
+	}
+	
+	public void loadQuestion()
+	{
+		String serviceUrl =  "http://127.0.0.1:5000/codecouch/question/";
+		String parameters = "Usn="+studentId+"&Q_id="+questionId;
+		String GET = "GET";
+		String POST = "POST";
+		
+		
+		RestClient client = new RestClient(serviceUrl, parameters, GET);
 		client.run();
 
 		Object obj = null;
@@ -63,18 +141,48 @@ public class SolveCodeController implements Initializable {
 			e.printStackTrace();
 		}
 		JSONObject problem = (JSONObject) obj;
-		/*
-		 * input.setText("Objective\n" +
-		 * "This is a simple challenge to help you practice printing to stdout. You may also want to complete Solve Me First in C++ before attempting this challenge.\n"
-		 * + "\n" +
-		 * "We're starting out by printing the most famous computing phrase of all time! In the editor below, use either printf or cout to print the string Hello, World! to stdout.\n"
-		 * + "\n" + "Input Format\n" + "\n" +
-		 * "You do not need to read any input in this challenge.\n" + "\n" +
-		 * "Output Format\n" + "\n" + "Print Hello, World! to stdout.\n" + "\n" +
-		 * "Sample Output\n" + "\n" + "Hello, World!");
-		 */
-		
-		input.setText((String) problem.get("description"));
+		description.setText((String) problem.get("description"));
 	}
+	
+	public void writeUsingFileWriter() throws IOException
+	{
+		String extension = getExtension();
+		
+		
+        File file = new File(codeDirectory+questionId+"/codes/code"+extension);
+        file.createNewFile();
+        
+        FileWriter filewriter = null;
+        try {
+        	filewriter = new FileWriter(file);
+        	filewriter.write(editor.getText());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            //close resources
+            try {
+            	filewriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        
+	}
+	
 
+    public String getExtension()
+    {
+    	String extension = null;
+		
+		if(languages.getValue().equals("cpp"))
+			extension = ".cpp";
+		else if(languages.getValue().equals("c"))
+			extension = ".c";
+		else if(languages.getValue().equals("java"))
+			extension = ".java";
+		else if(languages.getValue().equals("python"))
+			extension = ".py";
+		return extension;
+    }
+	
 }

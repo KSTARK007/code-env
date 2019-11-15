@@ -8,7 +8,6 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -30,15 +29,15 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="1024.0">
                                  <children>
-                                    <TextArea layoutX="66.0" layoutY="526.0" maxHeight="470.0" maxWidth="1000.0" prefHeight="470.0" prefWidth="892.0" />
-                                    <TextArea fx:id="input" editable="false" layoutX="67.0" layoutY="25.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefColumnCount="800" prefHeight="400.0" prefWidth="800.0" wrapText="true" />
+                                    <TextArea fx:id="editor" layoutX="66.0" layoutY="526.0" maxHeight="470.0" maxWidth="1000.0" prefHeight="470.0" prefWidth="892.0" />
+                                    <TextArea fx:id="description" editable="false" layoutX="67.0" layoutY="25.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefColumnCount="800" prefHeight="400.0" prefWidth="800.0" wrapText="true" />
                                     <Label layoutX="90.0" layoutY="1034.0" text="Upload Code as File" />
                                     <Button layoutX="513.0" layoutY="1028.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="112.0" text="Run code" />
                                     <TextArea layoutX="136.0" layoutY="1098.0" prefHeight="97.0" prefWidth="433.0" />
                                     <CheckBox layoutX="271.0" layoutY="1033.0" mnemonicParsing="false" text="Test against custom input" />
-                                    <Button layoutX="684.0" layoutY="1028.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="112.0" text="Submit" />
+                                    <Button fx:id="submit" layoutX="684.0" layoutY="1028.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="112.0" text="Submit" />
                                     <TextArea editable="false" layoutX="66.0" layoutY="469.0" prefHeight="57.0" prefWidth="891.0" />
-                                    <ComboBox fx:id="languages" layoutX="524.0" layoutY="487.0" prefWidth="150.0" promptText="C++" />
+                                    <ComboBox fx:id="languages" layoutX="524.0" layoutY="487.0" prefWidth="150.0" promptText="Cpp" />
                                     <Button fx:id="reset" layoutX="710.0" layoutY="487.0" mnemonicParsing="false" />
                                     <Button fx:id="fullscreen" layoutX="796.0" layoutY="487.0" mnemonicParsing="false" />
                                  </children>
