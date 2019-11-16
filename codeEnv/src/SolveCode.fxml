@@ -33,7 +33,7 @@
                                     <TextArea fx:id="description" editable="false" layoutX="67.0" layoutY="25.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefColumnCount="800" prefHeight="400.0" prefWidth="800.0" wrapText="true" />
                                     <Label layoutX="90.0" layoutY="1034.0" text="Upload Code as File" />
                                     <Button layoutX="513.0" layoutY="1028.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="112.0" text="Run code" />
-                                    <TextArea layoutX="136.0" layoutY="1098.0" prefHeight="97.0" prefWidth="433.0" />
+                                    <TextArea layoutX="136.0" layoutY="1098.0" prefHeight="97.0" prefWidth="433.0" fx:id="output" editable="false" />
                                     <CheckBox layoutX="271.0" layoutY="1033.0" mnemonicParsing="false" text="Test against custom input" />
                                     <Button fx:id="submit" layoutX="684.0" layoutY="1028.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="112.0" text="Submit" />
                                     <TextArea editable="false" layoutX="66.0" layoutY="469.0" prefHeight="57.0" prefWidth="891.0" />

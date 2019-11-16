@@ -6,6 +6,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.json.simple.JSONObject;
@@ -36,12 +42,17 @@ public class SolveCodeController implements Initializable {
 	Button reset;
 	@FXML
 	Button fullscreen,submit;
+	
+	@FXML
+	TextArea output;
+	
 	private  String questionId;
 	String studentId;
 	private String clientDir = "/home/kavya/Documents/Sem7/ProjSE/client/";
 	private String questionScrPath = clientDir+ "question.sh";
 	private String containerScrPath =  clientDir+"container.sh";
 	private String codeDirectory = "/home/kavya/Documents/Sem7/ProjSE/codeEnv/information/";
+	private String logPath = "/home/kavya/Documents/Sem7/ProjSE/codeEnv/information/";
 	private String timeout = "1";
 	
 	public void setQuestionId(String questionId) {
@@ -74,6 +85,7 @@ public class SolveCodeController implements Initializable {
             { 
             	//load test cases
             	Process p;
+            	output.setText("Checking");
             
             	try {
             		System.out.println("id is "+studentId+" here");
@@ -96,6 +108,7 @@ public class SolveCodeController implements Initializable {
             	//run container
 				  try 
 				  	{
+					  	  
 						  String[] cmd = { "/bin/sh", containerScrPath,questionId,languages.getValue(),timeout,studentId,getExtension()}; 
 						  System.out.println(languages.getValue()+" lang is ");
 						  p = Runtime.getRuntime().exec(cmd);
@@ -106,6 +119,60 @@ public class SolveCodeController implements Initializable {
 						  { 
 								System.out.println(line);
 						  } 
+						  
+						  List<String> lines = Collections.emptyList();
+						  lines = Files.readAllLines(Paths.get(logPath+questionId+"/logs/test_cases_output"), StandardCharsets.UTF_8);
+						  int i = 1;
+						  
+						  Iterator<String> itr = lines.iterator();
+						  String comp_output = "";
+						  String curr = itr.next();
+						  System.out.print(curr);
+						  if((languages.getValue()==".c" || languages.getValue()==".cpp") && curr.equals("-1")) {
+								  comp_output+="Compilation Error";
+						  }
+						  
+						  else {
+							  do {
+								  System.out.println("HELLO");
+								  if(curr.equals("-1")) {
+									  comp_output+="Test Case ";
+									  comp_output+=Integer.toString(i);
+									  comp_output+=": Compilation Error\n";
+											  
+								  }
+								  if(curr.equals("0")) {
+									  comp_output+="Test Case ";
+									  comp_output+=Integer.toString(i);
+									  comp_output+=": Passed\n";
+											  
+								  }
+								  if(curr.equals("-2")) {
+									  comp_output+="Test Case ";
+									  comp_output+=Integer.toString(i);
+									  comp_output+=": Incorrect Output\n";
+											  
+								  }
+								  if(curr.equals("-3")) {
+									  comp_output+="Test Case ";
+									  comp_output+=Integer.toString(i);
+									  comp_output+=": Time Limit Exceeded\n";
+											  
+								  }
+								  i+=1;
+								  itr.next();
+							  }while(itr.hasNext());
+							  System.out.println("HERE");
+						  }
+						  System.out.println("HELLO"+comp_output);
+						  lines = Collections.emptyList();
+						  lines = Files.readAllLines(Paths.get(logPath+questionId+"/logs/compilation_error"), StandardCharsets.UTF_8);
+						  itr = lines.iterator();
+						  while(itr.hasNext()) {
+							  comp_output+=itr.next();
+							  comp_output+="\n";
+						  }
+						  output.setText(comp_output);
 				  	}
 				  catch (Exception e1) { 
 					  // TODO Auto-generated catch block
