@@ -11,6 +11,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.sun.glass.events.MouseEvent;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -47,8 +49,17 @@ public class questionsPage implements Initializable {
 	public Button previous;
 	@FXML
 	public Button next;
+	@FXML
+	public Button profile;
 	
 	int firstId = 0,lastId = 10,perPageQuestions=10;
+	
+	public String usn;
+	
+	public void setUsn(String usn) {
+		this.usn = usn;
+		System.out.println(this.usn);
+	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -91,15 +102,42 @@ public class questionsPage implements Initializable {
                   	}                  
               };
               next.setOnAction(nextButtonEvent);
+              
+            
+              EventHandler<ActionEvent> profileButtonEvent = new EventHandler<ActionEvent>() {
+            	  @Override
+                  public void handle(ActionEvent e) 
+                  {                                     		
+            		  try {
+  	            		FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+  	            		Parent root = loader.load();  	            		
+  	            		Stage stage = new Stage();
+  	                    stage.setScene(new Scene(root));
+  	                    stage.setMaximized(true);
+  	                    stage.setTitle("Profile");
+  	                    stage.show();
+  	                    //Stage st = (Stage) solveButton.getScene().getWindow();
+  	                    //st.close();
+  					} catch (IOException e1) {
+  						// TODO Auto-generated catch block
+  						e1.printStackTrace();
+  					}
+                      	
+                  	}                  
+              };
+              profile.setOnAction(profileButtonEvent);
             
 	}
 	/*
 	 * 
 	 * */
+  
+
+	
 	public int loadQuestions(int first,int last,int testForClear) {
 		String serviceUrl =  "http://127.0.0.1:5000/codecouch/questions/";
 		String faculty = "f1";
-		String parameters = "First="+first+"&Number="+last+"&Tag=&Faculty="+faculty;
+		String parameters = "First="+first+"&Number="+last+"&Tag=&Faculty=";
 		String GET = "GET";
 		String POST = "POST";
 		
@@ -177,6 +215,7 @@ public class questionsPage implements Initializable {
 	            		FXMLLoader loader = new FXMLLoader(getClass().getResource("SolveCode.fxml"));
 	            		Parent root = loader.load();
 	            		SolveCodeController solveCodeController =  loader.getController();
+	            		solveCodeController.setUsn(usn);
 	            		solveCodeController.setQuestionId(id);
 	            		
 	            		Stage stage = new Stage();

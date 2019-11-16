@@ -14,7 +14,7 @@
             <AnchorPane layoutX="34.0" layoutY="6.0" prefHeight="44.0" prefWidth="830.0" style="-fx-border-color: blue;">
                <children>
                   <Label layoutX="7.0" prefHeight="59.0" prefWidth="119.0" text="Coding Platform" />
-                  <Button layoutX="688.0" layoutY="19.0" mnemonicParsing="false" text="Profile" />
+                  <Button layoutX="688.0" layoutY="19.0" mnemonicParsing="false" text="Profile" fx:id="profile"/>
                </children>
             </AnchorPane>
             <AnchorPane layoutY="59.0" prefHeight="1000.0" prefWidth="1024.0">

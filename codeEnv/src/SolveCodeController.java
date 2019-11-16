@@ -37,12 +37,12 @@ public class SolveCodeController implements Initializable {
 	@FXML
 	Button fullscreen,submit;
 	private  String questionId;
-	String studentId = "s1";
-	private String clientDir = "/home/adarsh/eclipse-workspace/client/";
+	String studentId;
+	private String clientDir = "/home/kavya/Documents/Sem7/ProjSE/client/";
 	private String questionScrPath = clientDir+ "question.sh";
 	private String containerScrPath =  clientDir+"container.sh";
-	private String codeDirectory = "/home/adarsh/eclipse-workspace/codeEnv/information/";
-	private String timeout = "1"; 
+	private String codeDirectory = "/home/kavya/Documents/Sem7/ProjSE/codeEnv/information/";
+	private String timeout = "1";
 	
 	public void setQuestionId(String questionId) {
 		this.questionId = questionId;
@@ -184,5 +184,11 @@ public class SolveCodeController implements Initializable {
 			extension = ".py";
 		return extension;
     }
+
+	public void setUsn(String usn) {
+		// TODO Auto-generated method stub
+		this.studentId = usn;
+		
+	}
 	
 }

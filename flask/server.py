@@ -19,18 +19,20 @@ class Login(Resource):
 		password = details["Password"]
 		user_type = get_user_type(usn)
 
+		print(usn, password, user_type)
+
 		if user_type==None:
-			response = jsonify([-1])
+			response = jsonify(["-1"])
 			response.status_code = 400
 			return response
 
 		valid = credential_exists(usn, password, user_type)
 		if valid==1:
-			response = jsonify([int(user_type=="Faculty")])
+			response = jsonify([str(int(user_type=="Faculty"))])
 			response.status_code = 200
 		else:
-			response = jsonify([-2])
-			response.status_code = 400
+			response = jsonify(["-2"])
+			response.status_code = 401
 		return response
 
 	
@@ -457,11 +459,11 @@ class StudentAnalysis(Resource):
 			avg = minicur.fetchone()[0]
 			minicur.close
 
-			analysis[q_id] = {"score":score, 'class_avg':str(class_avg), 'avg': str(avg), "name":name, "desc":desc}
+			analysis[q_id] = {"score":str(score), 'class_avg':str(class_avg), 'avg': str(avg), "name":name, "desc":desc}
 
 		cur.close()
-
-		response = jsonify([analysis])
+		print(analysis)
+		response = jsonify(analysis)
 		response.status_code = 200
 		return response
 
@@ -499,6 +501,7 @@ api.add_resource(Question, "/codecouch/question/")
 api.add_resource(Questions, "/codecouch/questions/")
 api.add_resource(Testcase, "/codecouch/testcases/<q_id>/<file_type>/<t_num>")
 api.add_resource(Submission, "/codecouch/submission/<q_id>/<usn>")
+api.add_resource(StudentAnalysis, "/codecouch/student/analysis/<usn>")
 api.add_resource(FacultyAnalysis, "/codecouch/faculty/analysis/<q_id>")
 
 
