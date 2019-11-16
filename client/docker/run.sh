@@ -35,7 +35,7 @@ then
 	do
 		# execute the exec file for x seconds after which it will be terminated 
 		# take input from the file and output it to a different file
-		timeout -t $timilimit $path/$problem_id/codes/a.out < $path/$problem_id/test_cases/ip$i > $path/$problem_id/test_cases/currop
+		timeout $timilimit $path/$problem_id/codes/a.out < $path/$problem_id/test_cases/ip$i > $path/$problem_id/test_cases/currop
 		
 		if [[ $? -ne 0 ]]
 		then
@@ -70,7 +70,7 @@ then
 
 	for i in $(seq 1 $n_test_cases);
 	do
-		timeout -t $timilimit $path/$problem_id/codes/a.out < $path/$problem_id/test_cases/ip$i > $path/$problem_id/test_cases/currop
+		timeout $timilimit $path/$problem_id/codes/a.out < $path/$problem_id/test_cases/ip$i > $path/$problem_id/test_cases/currop
 		echo $error >> $path/$problem_id/logs/compilation_error;
 		if [[ $? -ne 0 ]]
 		then
@@ -96,7 +96,7 @@ if [[ $language == "python" ]]
 then
 	for i in $(seq 1 $n_test_cases);
 	do
-		timeout -t $timilimit python3 $path/$problem_id/codes/code.py < $path/$problem_id/test_cases/ip$i > $path/$problem_id/test_cases/currop 2>> $path/$problem_id/logs/compilation_error
+		timeout $timilimit python3 $path/$problem_id/codes/code.py < $path/$problem_id/test_cases/ip$i > $path/$problem_id/test_cases/currop 2>> $path/$problem_id/logs/compilation_error
 		
 		error=$?;
 		if [[ $error -eq 1 ]]

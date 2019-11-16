@@ -1,9 +1,11 @@
 #!/bin/bash
-
+echo  hello owrl;
 problem_id=$1;
 usn=$2
+echo $problem_id;
+echo $uns;
 
-if [ -d "./informationd/"$problem_id ]
+if [ -d "./information/"$problem_id ]
 then
 	echo "done"
 else
