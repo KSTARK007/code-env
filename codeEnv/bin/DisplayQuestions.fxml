@@ -5,22 +5,26 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1500.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="questionsPage">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="1024.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1200.0" prefWidth="1024.0" style="-fx-background-color: #f3f7f7;;">
          <children>
-            <AnchorPane layoutX="34.0" layoutY="6.0" prefHeight="44.0" prefWidth="830.0" style="-fx-border-color: blue;">
+            <AnchorPane layoutX="63.0" layoutY="6.0" prefHeight="60.0" prefWidth="800.0" style="-fx-background-color: white;" >
                <children>
-                  <Label layoutX="7.0" prefHeight="59.0" prefWidth="119.0" text="Coding Platform" />
-                  <Button layoutX="688.0" layoutY="19.0" mnemonicParsing="false" text="Profile" fx:id="profile"/>
+                  <Label layoutX="36.0" prefHeight="59.0" prefWidth="211.0" text="Coding Platform" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="22.0" />
+                     </font></Label>
+                  <Button fx:id="profile" layoutX="622.0" layoutY="13.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="83.0" text="Profile" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutY="59.0" prefHeight="1000.0" prefWidth="1024.0">
+            <AnchorPane layoutY="69.0" prefHeight="1000.0" prefWidth="1024.0" style="-fx-background-color: #f3f7f7;;;">
                <children>
                   <ListView fx:id="QuestionsList" layoutX="63.0" layoutY="94.0" prefHeight="880.0" prefWidth="800.0" />
-                  <Text layoutX="69.0" layoutY="47.0" scaleX="2.0" scaleY="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Questions" />
+                  <Text layoutX="125.0" layoutY="47.0" scaleX="2.0" scaleY="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Questions" />
                </children>
             </AnchorPane>
             <Button fx:id="previous" layoutX="378.0" layoutY="1119.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Previous" />

@@ -150,7 +150,7 @@ public class LoginFormApplication extends Application {
   	            		questionsPageController.setUsn(usn);
   	            		Stage stage = new Stage();
   	                    stage.setScene(new Scene(root));
-  	                    stage.setMaximized(true);
+  	                    //stage.setMaximized(true);
   	                    stage.setTitle("Profile");
   	                    stage.show();
   	                    //Stage st = (Stage) solveButton.getScene().getWindow();

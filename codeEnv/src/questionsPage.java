@@ -79,7 +79,7 @@ public class questionsPage implements Initializable {
             	}
             } 
         };
-        
+       
         previous.setOnAction(previousButtonEvent);
         
       //Event handler for next button
@@ -220,7 +220,7 @@ public class questionsPage implements Initializable {
 	            		
 	            		Stage stage = new Stage();
 	                    stage.setScene(new Scene(root));
-	                    stage.setMaximized(true);
+	                    //stage.setMaximized(true);
 	                    stage.setTitle("Solve code");
 	                    stage.show();
 	                    //Stage st = (Stage) solveButton.getScene().getWindow();

@@ -23,14 +23,23 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.stage.Stage;
 import rest.RestClient;
-
+import java.awt.Dimension;
 public class SolveCodeController implements Initializable {
 
 	@FXML
@@ -45,7 +54,8 @@ public class SolveCodeController implements Initializable {
 	
 	@FXML
 	TextArea output;
-	
+	@FXML 
+	public Button profile;
 	private  String questionId;
 	String studentId;
 	private String clientDir = "/home/adarsh/eclipse-workspace/client/";
@@ -66,11 +76,20 @@ public class SolveCodeController implements Initializable {
 		// TODO Auto-generated method stub
 		languages.setItems(options);
 		languages.setValue(options.get(0));
-		ImageView imageViewReset = new ImageView(new Image("reload.jpg"));
+		/*
+		Image image = new Image("reset.png", reset.getWidth(), reset.getHeight(), false, true, true);
+	    BackgroundImage bImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(reset.getWidth(), reset.getHeight(), true, true, true, false));
+
+	    Background backGround = new Background(bImage);
+	    reset.setBackground(backGround);
+	    */
+	    
+		ImageView imageViewReset = new ImageView(new Image("reset.png"));
 		imageViewReset.setFitHeight(18);
 		imageViewReset.setFitWidth(18);
-		reset.setGraphic(imageViewReset);
 		
+		reset.setGraphic(imageViewReset);
+		//reset.setStyle("-fx-background-color: white; ");
 		
 		ImageView imageViewfs = new ImageView(new Image("fullscreen.png"));
 		imageViewfs.setFitHeight(18);
@@ -78,7 +97,29 @@ public class SolveCodeController implements Initializable {
 		fullscreen.setGraphic(imageViewfs);
 		
 		
-		
+		EventHandler<ActionEvent> profileButtonEvent = new EventHandler<ActionEvent>() {
+      	  @Override
+            public void handle(ActionEvent e) 
+            {                                     		
+      		  try {
+            		FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+            		Parent root = loader.load();  	            		
+            		Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.setMaximized(true);
+                    stage.setTitle("Profile");
+                    stage.show();
+                    //Stage st = (Stage) solveButton.getScene().getWindow();
+                    //st.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+                	
+            	}                  
+        };
+        profile.setOnAction(profileButtonEvent);
+        
 		//Event handler for submit button
 		EventHandler<ActionEvent> submitButtonEvent = new EventHandler<ActionEvent>() { 
             public void handle(ActionEvent e) 
@@ -127,7 +168,7 @@ public class SolveCodeController implements Initializable {
 						  { 
 								System.out.println(line);
 						  } 
-						  
+						 
 						  List<String> lines = Collections.emptyList();
 						  lines = Files.readAllLines(Paths.get(logPath+questionId+"/logs/test_cases_output"), StandardCharsets.UTF_8);
 						  int i = 1;

@@ -11,10 +11,10 @@ language=$2;
 timelimit=$3;
 usn=$4;
 extension=$5;
-docker run -v ~/Documents/Sem7/ProjSE/codeEnv/information:/information -p 8080:8080 coder ./run.sh $problem_id $language $timelimit
+docker run -v /home/adarsh/eclipse-workspace/codeEnv/information:/information -p 8080:8080 coder ./run.sh $problem_id $language $timelimit
 
-codelocation='code=@/home/kavya/Documents/Sem7/ProjSE/codeEnv/information/'$problem_id'/codes/code'$extension
-output=$(cat ~/Documents/Sem7/ProjSE/codeEnv/information/$problem_id/logs/test_cases_output | tr "\n" "_")
+codelocation='code=@/home/adarsh/eclipse-workspace/codeEnv/information/'$problem_id'/codes/code'$extension
+output=$(cat /home/adarsh/eclipse-workspace/codeEnv/information/$problem_id/logs/test_cases_output | tr "\n" "_")
 status='status='$output
 
 curl -w "%{http_code}\n" -X POST -F "language="$language \
