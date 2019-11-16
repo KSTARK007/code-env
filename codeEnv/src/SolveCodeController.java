@@ -26,7 +26,7 @@ import javafx.scene.image.ImageView;
 import rest.RestClient;
 
 public class SolveCodeController implements Initializable {
-	
+
 	@FXML
 	private ComboBox<String> languages;
 	ObservableList<String> options = FXCollections.observableArrayList("cpp","c","python","java");

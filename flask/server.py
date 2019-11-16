@@ -251,12 +251,10 @@ class Questions(Resource):
 	"""
 	def get(self):
 		details = request.args
-
 		first = int(details["First"])
 		number = int(details["Number"])
 		tag = details["Tag"]
 		faculty = details["Faculty"]
-
 		questions = []
 
 		cur = mysql.connection.cursor()
