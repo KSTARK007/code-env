@@ -48,11 +48,11 @@ public class SolveCodeController implements Initializable {
 	
 	private  String questionId;
 	String studentId;
-	private String clientDir = "/home/kavya/Documents/Sem7/ProjSE/client/";
+	private String clientDir = "/home/adarsh/eclipse-workspace/client/";
 	private String questionScrPath = clientDir+ "question.sh";
 	private String containerScrPath =  clientDir+"container.sh";
-	private String codeDirectory = "/home/kavya/Documents/Sem7/ProjSE/codeEnv/information/";
-	private String logPath = "/home/kavya/Documents/Sem7/ProjSE/codeEnv/information/";
+	private String codeDirectory = "/home/adarsh/eclipse-workspace/codeEnv/information/";
+	private String logPath = "/home/adarsh/eclipse-workspace/codeEnv/information/";
 	private String timeout = "1";
 	
 	public void setQuestionId(String questionId) {
@@ -88,10 +88,18 @@ public class SolveCodeController implements Initializable {
             	output.setText("Checking");
             
             	try {
-            		System.out.println("id is "+studentId+" here");
+            		System.out.println("id is "+studentId+" questionId "+questionId+" ques src path "+questionScrPath);
+            		
             		String[] cmd = { "/bin/sh", questionScrPath,questionId,studentId};
+            		
 					p = Runtime.getRuntime().exec(cmd);
 					p.waitFor(); 
+					BufferedReader reader=new BufferedReader(new InputStreamReader(p.getInputStream())); 
+					  String line; 
+					  while((line = reader.readLine()) != null) 
+					  { 
+							System.out.println(line);
+					  } 
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -126,44 +134,44 @@ public class SolveCodeController implements Initializable {
 						  
 						  Iterator<String> itr = lines.iterator();
 						  String comp_output = "";
-						  String curr = itr.next();
-						  System.out.print(curr);
-						  if((languages.getValue()==".c" || languages.getValue()==".cpp") && curr.equals("-1")) {
-								  comp_output+="Compilation Error";
-						  }
+						  String curr =null;
+						  //System.out.print(curr);
+						 
 						  
-						  else {
-							  do {
-								  System.out.println("HELLO");
-								  if(curr.equals("-1")) {
-									  comp_output+="Test Case ";
-									  comp_output+=Integer.toString(i);
-									  comp_output+=": Compilation Error\n";
-											  
-								  }
-								  if(curr.equals("0")) {
-									  comp_output+="Test Case ";
-									  comp_output+=Integer.toString(i);
-									  comp_output+=": Passed\n";
-											  
-								  }
-								  if(curr.equals("-2")) {
-									  comp_output+="Test Case ";
-									  comp_output+=Integer.toString(i);
-									  comp_output+=": Incorrect Output\n";
-											  
-								  }
-								  if(curr.equals("-3")) {
-									  comp_output+="Test Case ";
-									  comp_output+=Integer.toString(i);
-									  comp_output+=": Time Limit Exceeded\n";
-											  
-								  }
-								  i+=1;
-								  itr.next();
-							  }while(itr.hasNext());
-							  System.out.println("HERE");
-						  }
+						  while(itr.hasNext())
+						  {
+							  curr = itr.next();
+							  if((languages.getValue()==".c" || languages.getValue()==".cpp") && curr.equals("-1")) {
+								  comp_output+="Compilation Error";
+								  break;
+							  }
+							  System.out.println("HELLO");
+							  if(curr.equals("-1")) {
+								  comp_output+="Test Case ";
+								  comp_output+=Integer.toString(i);
+								  comp_output+=": Compilation Error\n";
+										  
+							  }
+							  if(curr.equals("0")) {
+								  comp_output+="Test Case ";
+								  comp_output+=Integer.toString(i);
+								  comp_output+=": Passed\n";
+										  
+							  }
+							  if(curr.equals("-2")) {
+								  comp_output+="Test Case ";
+								  comp_output+=Integer.toString(i);
+								  comp_output+=": Incorrect Output\n";
+										  
+							  }
+							  if(curr.equals("-3")) {
+								  comp_output+="Test Case ";
+								  comp_output+=Integer.toString(i);
+								  comp_output+=": Time Limit Exceeded\n";
+										  
+							  }
+							  i+=1;
+						  }  
 						  System.out.println("HELLO"+comp_output);
 						  lines = Collections.emptyList();
 						  lines = Files.readAllLines(Paths.get(logPath+questionId+"/logs/compilation_error"), StandardCharsets.UTF_8);
@@ -217,6 +225,7 @@ public class SolveCodeController implements Initializable {
 		
 		
         File file = new File(codeDirectory+questionId+"/codes/code"+extension);
+        System.out.println("path is "+file.getAbsolutePath());
         file.createNewFile();
         
         FileWriter filewriter = null;
