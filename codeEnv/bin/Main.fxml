@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
+   <bottom>
+      <HBox fx:id="div1" prefHeight="378.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <center>
+      <ImageView fx:id="mv" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+   </center>
+   <left>
+   <!--  
+      <Button fx:id="div1" mnemonicParsing="false" text="CheckResults" BorderPane.alignment="CENTER" />
+      -->
+   </left>
+   <left>
+      <!--Button fx:id="avgButton" mnemonicParsing="false" text="TestResults" BorderPane.alignment="CENTER" /-->
+   </left>
+</BorderPane>

@@ -1,7 +1,0 @@
-Find the factorial of the given number
-
-INPUT:
-4
-
-OUTPUT:
-24
