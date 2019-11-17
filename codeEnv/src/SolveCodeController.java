@@ -100,10 +100,6 @@ public class SolveCodeController implements Initializable {
 		reset.setGraphic(imageViewReset);
 		//reset.setStyle("-fx-background-color: white; ");
 		
-		ImageView imageViewfs = new ImageView(new Image("fullscreen.png"));
-		imageViewfs.setFitHeight(18);
-		imageViewfs.setFitWidth(18);
-		fullscreen.setGraphic(imageViewfs);
 		
 		
 		EventHandler<ActionEvent> profileButtonEvent = new EventHandler<ActionEvent>() {
@@ -269,6 +265,16 @@ public class SolveCodeController implements Initializable {
         };
         
         submit.setOnAction(submitButtonEvent);
+        
+        
+        EventHandler<ActionEvent> resetButtonEvent = new EventHandler<ActionEvent>() {
+        	  @Override
+              public void handle(ActionEvent e) 
+              {                                     		        		  
+                  	editor.clear();
+              }                  
+          };
+          reset.setOnAction(resetButtonEvent);
 	}
 	
 	public void loadQuestion()
