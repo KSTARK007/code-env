@@ -513,6 +513,41 @@ class FacultyAnalysis(Resource):
 		response.status_code = 200
 		return response
 
+class Article(Resource):
+	def get(self):
+		details = request.args
+		search = details["search"]
+		f = open(".Article/data.json")
+		x = f.read()
+		f.close()
+		d = dict()
+		data = json.loads(x)
+		for i in range(len(data)):
+			if(str(search).lower() in str(data[str(i)]["title"]).lower()):
+				d[str(i)] = data[str(i)]
+				print(data[str(i)]["title"])
+		if(len(d)==0):
+			return jsonify({"error":"no entry in the database"})
+		# output = json.dumps(d)
+		return jsonify(d)
+
+	def post(self):
+		result = request.form
+		f = open("./Article/data.json",)
+		x = f.read()
+		f.close()
+		data = json.loads(x)
+		t = datas.split(";")
+		temp = {}
+		temp["title"] = str(t[0])
+		temp["data"] = str(t[1])
+		temp["code"] = str(t[2])
+		temp["link"] = str(t[3])
+		data[str(len(data))] = temp
+		out = json.dumps(data)
+		fi = open("./Article/data.json","w")
+		fi.write(out)
+		return ""
 
 
 api.add_resource(Student, "/codecouch/student/<usn>")
@@ -524,6 +559,7 @@ api.add_resource(Testcase, "/codecouch/testcases/<q_id>/<file_type>/<t_num>")
 api.add_resource(Submission, "/codecouch/submission/<q_id>/<usn>")
 api.add_resource(StudentAnalysis, "/codecouch/student/analysis/<usn>")
 api.add_resource(FacultyAnalysis, "/codecouch/faculty/analysis/<q_id>")
+api.add_resource(Article, "/codecouch/article/")
 
 
 

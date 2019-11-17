@@ -19,7 +19,7 @@ for a in range(n_students):
 
 #making teachers
 for a in range(n_faculty):
-	print(f'curl -X PUT -d "Name=fname{a+1}&Department=CSE" http://127.0.0.1:5000/codecouch/faculty/f{a+1}')
+	print(f'curl -X PUT -d "Name=fname{a+1}&Department=CSE&Password=password" http://127.0.0.1:5000/codecouch/faculty/f{a+1}')
 
 #making questions
 for a in range(len(questions)):
