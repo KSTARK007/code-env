@@ -1,8 +1,0 @@
-Given a number, output it's factorial 
-The first line of the input is an integer 'n' 
-The third line has the key 'k'
-INPUT:
-4
-
-OUTPUT:
-24

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<!--
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="finalseproj.ArticlesPageController">
+    <stylesheets>
+        <URL value="@articlespage.css"/>
+    </stylesheets>
+</AnchorPane>
+-->
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="finalseproj.ArticlesPageController">
+    <top>
+        <BorderPane styleClass="top-part">
+            <left>
+                <Label id="top-part" text="Editor application" />
+            </left>
+            <right>
+                <Label id="top-part" text="Articles page" />
+            </right>
+         <center>
+            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TextField fx:id="searchArticleName" />
+                  <Button fx:id="searchArticleButton" mnemonicParsing="false" text="Search for an article" />
+               </children>
+            </HBox>
+         </center>
+        </BorderPane>
+    </top>
+    <left>
+        <VBox fx:id="buttonBox" styleClass="side-part">
+         <children>
+            <Button fx:id="postArticleButton" mnemonicParsing="false" text="Post an article" />
+         </children>
+        </VBox>
+    </left>
+    <center>
+        <VBox styleClass="content-section">
+            <children>
+                <Label id="content-header" text="Content header" />
+            <ScrollPane fx:id="masterScrollPane" prefHeight="1000.0" prefWidth="1000.0">
+                <content>
+                    <!--
+                  <Label text="Label" fx:id="articleContentLabel" />
+                    -->
+               </content>
+            </ScrollPane>
+            </children>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox id="bottom-part">
+            <children>
+                <Label text="Coding Platfrom" />
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>

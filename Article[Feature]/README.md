@@ -27,19 +27,18 @@ output: JSON file
 
 
 
-## 2) /postfile/   [POST]
+## 2) /postfile/<data>   [GET]
 
-Run the index.html page
-input : all the attributes in the form
+
+input : `<title>;<data>;<code>;<link>` strings
 output: nothing
-service : addeds the article to the database.
+service : adds the article to the database.
 
-
-## Prerequisite:
-- `pip install flask` 
 
 ## Usage:
 Run - 
 - `python app.py`
 
-for post request open `index.html`
+API call -
+`	/postfile/testtitle;testdata;;testlink `
+in this the code field is not avalable

@@ -20,18 +20,19 @@ def get_file(search):
 	return jsonify(d)
 
 
-@app.route('/postfile/',methods=['POST']) 
-def post_file():
+@app.route('/postfile/<datas>') 
+def post_file(datas):
 	result = request.form
 	f = open("./data.json",)
 	x = f.read()
 	f.close()
 	data = json.loads(x)
+	t = datas.split(";")
 	temp = {}
-	temp["title"] = request.form["title"]
-	temp["data"] = request.form["data"]
-	temp["code"] = request.form["code"]
-	temp["link"] = request.form["link"]
+	temp["title"] = str(t[0])
+	temp["data"] = str(t[1])
+	temp["code"] = str(t[2])
+	temp["link"] = str(t[3])
 	data[str(len(data))] = temp
 	out = json.dumps(data)
 	fi = open("./data.json","w")
@@ -41,4 +42,5 @@ def post_file():
 # main driver function 
 if __name__ == '__main__': 
   
-    app.run() 
+    #app.run()
+    app.run(host='127.0.0.1', port=5001) 

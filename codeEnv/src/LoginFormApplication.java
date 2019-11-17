@@ -140,7 +140,8 @@ public class LoginFormApplication extends Application {
                 	showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(), "Login Unsuccessful!", "Try Again");
                 
                 
-                if(val>=0) {
+                if(val==0) {
+                	//student
                 	try {
                 		System.out.println("HEREE");
                 		stage.close();
@@ -152,6 +153,28 @@ public class LoginFormApplication extends Application {
   	                    stage.setScene(new Scene(root));
   	                    //stage.setMaximized(true);
   	                    stage.setTitle("Profile");
+  	                    stage.show();
+  	                    //Stage st = (Stage) solveButton.getScene().getWindow();
+  	                    //st.close();
+  					} catch (IOException e1) {
+  						// TODO Auto-generated catch block
+  						e1.printStackTrace();
+  					}
+                }
+                else if(val==1)
+                {
+                	try {
+                		System.out.println("Faculty login");
+                		//stage.close();
+  	            		FXMLLoader loader = new FXMLLoader(getClass().getResource("PostQuestions.fxml"));
+  	            		Parent root = loader.load();
+  	            		postQuestionsController postquestionscontroller = loader.getController();
+  	            		System.out.println("ptr is "+postquestionscontroller);
+  	            		postquestionscontroller.setUsn(usn);
+  	            		Stage stage = new Stage();
+  	                    stage.setScene(new Scene(root));
+  	                    //stage.setMaximized(true);
+  	                    stage.setTitle("Post Questions");
   	                    stage.show();
   	                    //Stage st = (Stage) solveButton.getScene().getWindow();
   	                    //st.close();
@@ -204,7 +227,6 @@ public class LoginFormApplication extends Application {
 				
 		return val;
 	}
-
     public static void main(String[] args) {
         launch(args);
     }

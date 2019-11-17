@@ -21,7 +21,7 @@
                   <Button fx:id="profile" layoutX="745.0" layoutY="14.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="74.0" text="Profile" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutY="60.0" prefHeight="1500.0" prefWidth="1124.0" style="-fx-background-color: #f3f7f7;;" AnchorPane.rightAnchor="250.0">
+            <AnchorPane layoutY="60.0" prefHeight="1500.0" prefWidth="1124.0" style="-fx-background-color: #f3f7f7;" AnchorPane.rightAnchor="250.0">
                <children>
                   <TextArea fx:id="editor" layoutX="66.0" layoutY="526.0" maxHeight="470.0" maxWidth="1000.0" prefHeight="470.0" prefWidth="892.0" />
                   <TextArea fx:id="description" editable="false" layoutX="67.0" layoutY="25.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefColumnCount="800" prefHeight="400.0" prefWidth="800.0" wrapText="true">

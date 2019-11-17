@@ -12,13 +12,14 @@
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1200.0" prefWidth="1024.0" style="-fx-background-color: #f3f7f7;;">
          <children>
-            <AnchorPane layoutX="63.0" layoutY="6.0" prefHeight="60.0" prefWidth="800.0" style="-fx-background-color: white;" >
+            <AnchorPane layoutX="63.0" layoutY="6.0" prefHeight="60.0" prefWidth="800.0" style="-fx-background-color: white;">
                <children>
                   <Label layoutX="36.0" prefHeight="59.0" prefWidth="211.0" text="Coding Platform" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="22.0" />
                      </font></Label>
                   <Button fx:id="profile" layoutX="622.0" layoutY="13.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="83.0" text="Profile" />
+                  <Button fx:id="articles" layoutX="476.0" layoutY="13.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="90.0" text="Articles" />
                </children>
             </AnchorPane>
             <AnchorPane layoutY="69.0" prefHeight="1000.0" prefWidth="1024.0" style="-fx-background-color: #f3f7f7;;;">

@@ -145,9 +145,11 @@ class Faculty(Resource):
 			details = request.form
 			name = details["Name"]
 			department = details["Department"]
+			password = details["Password"]
 			
 			cur = mysql.connection.cursor()
 			result = cur.execute(f"INSERT INTO Faculty(Faculty_ID, Faculty_Name, Department) VALUES ('{f_id}', '{name}', '{department}')")
+			result = cur.execute(f"INSERT INTO Faculty_login(Faculty_ID, Faculty_password) VALUES ('{f_id}', '{password}')")
 			mysql.connection.commit()
 			cur.close()
 
@@ -196,6 +198,9 @@ class Question(Resource):
 		return response
 
 	def post(self):
+		print(request)
+		print(request.files)
+		print(request.form)
 		files = request.files
 		details = request.form
 
