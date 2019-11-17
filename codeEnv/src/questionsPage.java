@@ -135,12 +135,12 @@ public class questionsPage implements Initializable {
                   public void handle(ActionEvent e) 
                   {                                     		
             		  try {
-            			  FXMLLoader loader = new FXMLLoader(getClass().getResource("finalseproj/articlesPage.fxml"));
+            			  FXMLLoader loader = new FXMLLoader(getClass().getResource("/finalseproj/articlesPage.fxml"));
             		        Parent root = loader.load();
             		        ArticlesPageController articlesPageController = loader.getController();
             		        System.out.println("Here2");   
             		        Scene scene = new Scene(root);
-            		        scene.getStylesheets().add(getClass().getResource("finalseproj/articlespage.css").toExternalForm());
+            		        scene.getStylesheets().add(getClass().getResource("/finalseproj/articlespage.css").toExternalForm());
             		        Stage primaryStage = new Stage();
             		        primaryStage.setTitle("Articles");
             		        primaryStage.setScene(scene);
@@ -246,7 +246,7 @@ public class questionsPage implements Initializable {
 	            		solveCodeController.setUsn(usn);
 	            		solveCodeController.setQuestionId(id);
 	            		
-	            		Stage stage = new Stage();
+	            		Stage stage = (Stage) solveButton.getScene().getWindow();
 	                    stage.setScene(new Scene(root));
 	                    //stage.setMaximized(true);
 	                    stage.setTitle("Solve code");

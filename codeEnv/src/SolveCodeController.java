@@ -50,7 +50,7 @@ public class SolveCodeController implements Initializable {
 	@FXML
 	Button reset;
 	@FXML
-	Button fullscreen,submit;
+	Button fullscreen,submit, back;
 	
 	@FXML
 	TextArea output;
@@ -63,10 +63,19 @@ public class SolveCodeController implements Initializable {
 	private String containerScrPath =  clientDir+"container.sh";
 	private String codeDirectory = "/home/adarsh/eclipse-workspace/codeEnv/information/";
 	private String logPath = "/home/adarsh/eclipse-workspace/codeEnv/information/";
+	private String currdir = "";
 	private String timeout = "1";
 	
 	public void setQuestionId(String questionId) {
 		this.questionId = questionId;
+		this.currdir = System.getProperty("user.dir");
+		this.codeDirectory = currdir+"/information/";
+		this.logPath = this.codeDirectory;
+		
+//		.substring(0, currdir.length()-8)
+		this.clientDir = currdir+"client/";
+		this.questionScrPath = currdir+"/client/question.sh";
+		this.containerScrPath = currdir+"/client/container.sh";
 		loadQuestion();
 		//this.studentId has to come here
 	}
@@ -120,6 +129,31 @@ public class SolveCodeController implements Initializable {
         };
         profile.setOnAction(profileButtonEvent);
         
+        EventHandler<ActionEvent> backButtonEvent = new EventHandler<ActionEvent>() {
+        	  @Override
+              public void handle(ActionEvent e) 
+              {                                     		
+        		  try {
+              		FXMLLoader loader = new FXMLLoader(getClass().getResource("DisplayQuestions.fxml"));
+              		Parent root = loader.load(); 
+              		questionsPage questionsPageController = loader.getController();
+  	            	questionsPageController.setUsn(studentId);
+              		Stage stage = (Stage) back.getScene().getWindow();
+                      stage.setScene(new Scene(root));
+                      stage.setMaximized(true);
+                      stage.setTitle("Questions");
+                      stage.show();
+                      //Stage st = (Stage) solveButton.getScene().getWindow();
+                      //st.close();
+  				} catch (IOException e1) {
+  					// TODO Auto-generated catch block
+  					e1.printStackTrace();
+  				}
+                  	
+              	}                  
+          };
+          back.setOnAction(backButtonEvent);
+        
 		//Event handler for submit button
 		EventHandler<ActionEvent> submitButtonEvent = new EventHandler<ActionEvent>() { 
             public void handle(ActionEvent e) 
@@ -158,7 +192,7 @@ public class SolveCodeController implements Initializable {
 				  try 
 				  	{
 					  	  
-						  String[] cmd = { "/bin/sh", containerScrPath,questionId,languages.getValue(),timeout,studentId,getExtension()}; 
+						  String[] cmd = { "/bin/sh", containerScrPath,questionId,languages.getValue(),timeout,studentId,getExtension(),currdir}; 
 						  System.out.println(languages.getValue()+" lang is ");
 						  p = Runtime.getRuntime().exec(cmd);
 						  p.waitFor();

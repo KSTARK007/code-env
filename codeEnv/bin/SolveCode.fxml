@@ -19,6 +19,7 @@
                         <Font name="System Bold" size="22.0" />
                      </font></Label>
                   <Button fx:id="profile" layoutX="745.0" layoutY="14.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="74.0" text="Profile" />
+                  <Button fx:id="back" layoutX="30.0" layoutY="14.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="74.0" text="Back"  />
                </children>
             </AnchorPane>
             <AnchorPane layoutY="60.0" prefHeight="1500.0" prefWidth="1124.0" style="-fx-background-color: #f3f7f7;" AnchorPane.rightAnchor="250.0">
