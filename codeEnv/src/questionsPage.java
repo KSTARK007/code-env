@@ -128,10 +128,10 @@ public class questionsPage implements Initializable {
               
               
               profile.setOnAction(profileButtonEvent);
-              
+             
               EventHandler<ActionEvent> articleButtonEvent = new EventHandler<ActionEvent>() {
             	  @Override
-            	  
+            
                   public void handle(ActionEvent e) 
                   {                                     		
             		  try {
