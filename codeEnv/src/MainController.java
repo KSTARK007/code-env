@@ -121,6 +121,8 @@ public class MainController implements Initializable {
 //                        int score = ((Long)abc.get("score")).intValue();
                         String name = (String) abc.get("name"); 
                         VBox vb1 = new VBox();
+                        
+                        JSONArray tally = (JSONArray) abc.get("tally");
                 		
                 		Label lb1 = new Label("Program: "+(String) abc.get("name"));
                 		lb1.setId("lbtest"+i);
@@ -135,22 +137,24 @@ public class MainController implements Initializable {
                 		buttonimage.setId("a3");
                 		
                 		CategoryAxis xAxis    = new CategoryAxis();
-                        xAxis.setLabel("Devices");
+                        xAxis.setLabel("Scores");
 
                         NumberAxis yAxis = new NumberAxis();
-                        yAxis.setLabel("Visits");
+                        yAxis.setLabel("Number of Participants");
 
                         BarChart     barChart = new BarChart(xAxis, yAxis);
 
                         XYChart.Series dataSeries1 = new XYChart.Series();
                         dataSeries1.setName("2014");
 
-                        dataSeries1.getData().add(new XYChart.Data("0-5", 567));
-                        dataSeries1.getData().add(new XYChart.Data("5-10"  , 65));
-                        dataSeries1.getData().add(new XYChart.Data("10-15"  , 123));
-                        dataSeries1.getData().add(new XYChart.Data("15-20"  , 23));
-                        dataSeries1.getData().add(new XYChart.Data("20-25"  , 223));
-                        dataSeries1.getData().add(new XYChart.Data("25-30"  , 23));
+                        for(int ind=0; ind<tally.size(); ind++)
+                        	dataSeries1.getData().add(new XYChart.Data(Integer.toString(ind), Integer.parseInt((String) tally.get(ind))));
+                        
+//                        dataSeries1.getData().add(new XYChart.Data("5-10"  , 65));
+//                        dataSeries1.getData().add(new XYChart.Data("10-15"  , 123));
+//                        dataSeries1.getData().add(new XYChart.Data("15-20"  , 23));
+//                        dataSeries1.getData().add(new XYChart.Data("20-25"  , 223));
+//                        dataSeries1.getData().add(new XYChart.Data("25-30"  , 23));
 
                         barChart.getData().add(dataSeries1);
 

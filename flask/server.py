@@ -1,5 +1,6 @@
 from helper_functions import *
 import os
+from collections import Counter
 
 # TODO:
 # submission
@@ -447,8 +448,8 @@ class StudentAnalysis(Resource):
 			minicur.close
 
 			minicur = mysql.connection.cursor()
-			minicur.execute(f"SELECT Description_Pathway, Question_name FROM Questions WHERE Question_ID={q_id}")
-			path,name = minicur.fetchone()
+			minicur.execute(f"SELECT Description_Pathway, Question_name, Number_Testcases FROM Questions WHERE Question_ID={q_id}")
+			path,name,n_test = minicur.fetchone()
 			print(path)
 			with open(path) as file:
 				desc = file.read()
@@ -459,7 +460,22 @@ class StudentAnalysis(Resource):
 			avg = minicur.fetchone()[0]
 			minicur.close
 
-			analysis[q_id] = {"score":str(score), 'class_avg':str(class_avg), 'avg': str(avg), "name":name, "desc":desc}
+			minicur = mysql.connection.cursor()
+			minicur.execute(f"SELECT Correct_testcases FROM Submissions WHERE Question_ID='{q_id}'")
+			all_scores = []
+			for score_ind in range(minicur.rowcount):
+				all_scores.append(minicur.fetchone()[0])
+			minicur.close
+			all_scores = Counter(all_scores)
+			tally = []
+			for indscore in range(n_test+1):
+				try:
+					tally.append(str(all_scores[indscore]))
+				except:
+					tally.append("0")
+			print(tally)
+
+			analysis[q_id] = {"score":str(score), 'class_avg':str(class_avg), 'avg': str(avg), "name":name, "desc":desc, "tally":tally}
 
 		cur.close()
 		print(analysis)
