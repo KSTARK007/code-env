@@ -1,6 +1,7 @@
 from helper_functions import *
 import os
 from collections import Counter
+import json
 
 # TODO:
 # submission
@@ -517,7 +518,7 @@ class Article(Resource):
 	def get(self):
 		details = request.args
 		search = details["search"]
-		f = open(".Article/data.json")
+		f = open("./Article/data.json")
 		x = f.read()
 		f.close()
 		d = dict()
@@ -537,7 +538,7 @@ class Article(Resource):
 		x = f.read()
 		f.close()
 		data = json.loads(x)
-		t = datas.split(";")
+		t = result["data"].split(";")
 		temp = {}
 		temp["title"] = str(t[0])
 		temp["data"] = str(t[1])
