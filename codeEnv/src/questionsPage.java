@@ -40,7 +40,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import rest.RestClient;
-
+import finalseproj.*;
 public class questionsPage implements Initializable {
 	@FXML
 	public ListView<AnchorPane> QuestionsList;
@@ -50,7 +50,7 @@ public class questionsPage implements Initializable {
 	@FXML
 	public Button next;
 	@FXML
-	public Button profile;
+	public Button profile,articles;
 	
 	int firstId = 0,lastId = 10,perPageQuestions=10;
 	
@@ -98,7 +98,7 @@ public class questionsPage implements Initializable {
           	            	lastId-=perPageQuestions;
           	            	System.out.println("Debug: Page didn't update\n");
       	            	}
-      	            	
+      	           	
                   	}                  
               };
               next.setOnAction(nextButtonEvent);
@@ -125,7 +125,35 @@ public class questionsPage implements Initializable {
                       	
                   	}                  
               };
+              
+              
               profile.setOnAction(profileButtonEvent);
+              
+              EventHandler<ActionEvent> articleButtonEvent = new EventHandler<ActionEvent>() {
+            	  @Override
+            	  
+                  public void handle(ActionEvent e) 
+                  {                                     		
+            		  try {
+            			  FXMLLoader loader = new FXMLLoader(getClass().getResource("finalseproj/articlesPage.fxml"));
+            		        Parent root = loader.load();
+            		        ArticlesPageController articlesPageController = loader.getController();
+            		        System.out.println("Here2");   
+            		        Scene scene = new Scene(root);
+            		        scene.getStylesheets().add(getClass().getResource("finalseproj/articlespage.css").toExternalForm());
+            		        Stage primaryStage = new Stage();
+            		        primaryStage.setTitle("Articles");
+            		        primaryStage.setScene(scene);
+            		        primaryStage.show();
+  					} catch (IOException e1) {
+  						// TODO Auto-generated catch block
+  						e1.printStackTrace();
+  					}
+                      	
+                  	}                  
+              };
+              
+              articles.setOnAction(articleButtonEvent);
             
 	}
 	/*

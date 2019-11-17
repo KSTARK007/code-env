@@ -227,7 +227,6 @@ public class LoginFormApplication extends Application {
 				
 		return val;
 	}
-
     public static void main(String[] args) {
         launch(args);
     }
