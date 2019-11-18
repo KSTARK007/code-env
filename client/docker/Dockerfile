@@ -11,5 +11,5 @@ RUN apk add --update \
 RUN apk add curl
 
 COPY ./run.sh /run.sh
-#COPY ./Encryption.py /Encryption.py
+COPY ./Encryption.py /Encryption.py
 

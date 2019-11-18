@@ -35,6 +35,7 @@ then
 	do
 		# execute the exec file for x seconds after which it will be terminated 
 		# take input from the file and output it to a different file
+		python Encryption.py D $path/$problem_id/test_cases/ip$i
 		timeout $timilimit $path/$problem_id/codes/a.out < $path/$problem_id/test_cases/ip$i > $path/$problem_id/test_cases/currop
 		
 		if [[ $? -ne 0 ]]
@@ -45,6 +46,7 @@ then
 		fi
 		
 		# compare the difference between the given output of the test case and the computed output for the testcase
+		python Encryption.py D $path/$problem_id/test_cases/op$i
 		differences=$(diff -wB $path/$problem_id/test_cases/currop $path/$problem_id/test_cases/op$i | wc | awk '{print $1}');
 
 		if [[ $differences -ne 0 ]]

@@ -2,6 +2,7 @@ from helper_functions import *
 import os
 from collections import Counter
 import json
+import sys, os
 
 # TODO:
 # submission
@@ -313,6 +314,7 @@ class Testcase(Resource):
 			response = jsonify([-2])
 			response.status_code = 400
 			return response
+		os.system("python Encryption E ./Questions/{q_id}/{file_type}{t_num}.txt")
 		return send_file(f"./Questions/{q_id}/{file_type}{t_num}.txt")
 
 class Submission(Resource):

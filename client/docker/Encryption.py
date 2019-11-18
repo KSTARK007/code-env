@@ -1,14 +1,15 @@
 # sys arg 1 = E for encryption and D - Decryption
 # sys arg 2 (optional) with E = if filename mentioned then encrypt it only else encrypt all the files.
 # sys arg 2 with D = filename with Secured prepended.
-
 from Crypto.Hash import MD5
 from Crypto.Cipher import AES
 import os, random, sys
  
 def encrypt(key, filename):
+        cmd_to_run="cp ./"+filename+" ./D"+filename
+        os.system(cmd_to_run)
         chunksize = 128 * 1024
-        outFile = os.path.join(os.path.dirname(filename), "Secured"+os.path.basename(filename))
+        outFile = os.path.join(os.path.dirname(filename),os.path.basename(filename))
         filesize = str(os.path.getsize(filename)).zfill(16)
         IV = ''
  
@@ -17,7 +18,7 @@ def encrypt(key, filename):
        
         encryptor = AES.new(key, AES.MODE_CBC, IV)
  
-        with open(filename, "rb") as infile:
+        with open("D"+filename, "rb") as infile:
                 with open(outFile, "wb") as outfile:
                         outfile.write(filesize)
                         outfile.write(IV)
@@ -33,7 +34,7 @@ def encrypt(key, filename):
                                 outfile.write(encryptor.encrypt(chunk))
  
 def decrypt(key, filename):
-        outFile = os.path.join(os.path.dirname(filename), os.path.basename(filename[7:]))
+        outFile = os.path.join(os.path.dirname(filename), os.path.basename(filename))
         chunksize = 128 * 1024
         with open(filename, "rb") as infile:
                 filesize = infile.read(16)
@@ -64,55 +65,34 @@ except Exception as e:
     print("1st Arg is E or D")
     print("2nd Arg is file name for Encryption or Decryption")
     sys.exit(0)
+
 password = "randomsentence"
  
 encFiles = allfiles()
  
 if choice == "E":
-        subchoice = "N"
-        if(not(len(sys.argv) == 3)):
-        	subchoice = "Y"
-        if subchoice == "Y":
-          for Tfiles in encFiles:
-                if os.path.basename(Tfiles).startswith("Secured"):
-                        print "%s is already encrypted" %str(Tfiles)
-                        pass
- 
-                elif Tfiles == os.path.join(os.getcwd(), sys.argv[0]):
-                        pass
-                else:
-                        encrypt(MD5.new(password).digest(), str(Tfiles))
-                        print "Done Encryption %s" %str(Tfiles)
-                        #os.remove(Tfiles)
-        else:
-            filename = sys.argv[2]
-            if not os.path.exists(filename):
-                print "Given file does not exist"
-                sys.exit(0)
-            elif filename.startswith("Secured"):
-                print "%s was already encrypted" %filename
-                sys.exit()
-            else:
-                encrypt(MD5.new(password).digest(), filename)
-                print("Done Encryption %s" %filename)
-                #os.remove(filename)
+    filename = sys.argv[2]
+    if not os.path.exists(filename):
+        print ("Given file does not exist")
+        sys.exit(0)
+    else:
+        encrypt(MD5.new(password).digest(), filename)
+        print("Done Encryption %s" %filename)
+        #os.remove(filename)
              
 elif choice == "D":
         if(not(len(sys.argv) == 3)):
             print("enter the encrypted filename with Secured prepended")
             sys.exit(0)
-        print ""
+        print ("")
         filename = sys.argv[2]
         if not os.path.exists(filename):
             print("Given file does not exist")
             sys.exit(0)
-        elif not filename.startswith("Secured"):
-            print("%s is was never encrypted" %filename)
-            sys.exit()
         else:
             decrypt(MD5.new(password).digest(), filename)
             print("Done Decryption %s" %filename)
-            os.remove(filename)
+            #os.remove(filename)
 
 else:
         print("Please choose a valid command. Either E or D as first argument")

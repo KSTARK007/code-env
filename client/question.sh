@@ -3,7 +3,7 @@ echo  hello owrl;
 problem_id=$1;
 usn=$2
 echo $problem_id;
-echo $uns;
+echo $usn;
 
 if [ -d "./information/"$problem_id ]
 then
