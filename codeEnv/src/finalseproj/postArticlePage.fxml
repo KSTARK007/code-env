@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="postarticle.PostArticlePageController">
+    <stylesheets>
+        <URL value="@postarticlepage.css"/>
+    </stylesheets>
+</AnchorPane>-->
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1500.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="finalseproj.PostArticlePageController">
+
+   <content>
+
+      <AnchorPane prefHeight="1500.0" prefWidth="1027.0">
+
+         <children>
+
+            <AnchorPane prefHeight="44.0" prefWidth="961.0">
+
+               <children>
+
+                  <Label layoutX="7.0" prefHeight="59.0" prefWidth="119.0" text="Coding Platform" />
+
+               </children>
+
+            </AnchorPane>
+
+            <AnchorPane layoutX="14.0" layoutY="86.0" prefHeight="613.0" prefWidth="759.0">
+
+               <children>
+
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="1024.0">
+
+                                 <children>
+
+                                    <TextArea fx:id="articleTextArea" layoutX="58.0" layoutY="675.0" maxHeight="470.0" maxWidth="1000.0" prefHeight="470.0" prefWidth="892.0" />
+
+                                    <Button fx:id="submitArticleBtn" layoutX="685.0" layoutY="1175.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="112.0" text="Submit" />
+                        <Label layoutX="14.0" layoutY="6.0" text="Enter article title" />
+                        <Label layoutX="24.0" layoutY="608.0" text="Type your atricle below" />
+                        <TextField fx:id="articleTitleTextArea" layoutX="58.0" layoutY="40.0" />
+                        <Label layoutX="24.0" layoutY="335.0" text="Code snippets used in the article" />
+                        <TextArea fx:id="articleLinkTextArea" layoutX="58.0" layoutY="122.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Label layoutX="24.0" layoutY="91.0" text="Links which are part of the article" />
+                        <TextArea fx:id="articleCodeTextArea" layoutX="58.0" layoutY="364.0" prefHeight="200.0" prefWidth="200.0" />
+
+                                 </children>
+
+                              </AnchorPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>

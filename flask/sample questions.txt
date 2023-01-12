@@ -1,0 +1,10 @@
+curl -w "%{http_code}\n" -X POST -F 'Usn=f1' -F 'Question_name=Hello world'  -F 'Tags=Holy Water'  -F 'description=@./description'  -F 'op1=@./op1'  -F 'ip1=@./ip1'  http://127.0.0.1:5000/codecouch/question/
+
+curl -w "%{http_code}\n" -X POST -F 'Usn=f1' -F 'Question_name=Add two numbers'  -F 'Tags=Holy Water'  -F 'description=@./description'  -F 'op1=@./op1'  -F 'ip1=@./ip1'  http://127.0.0.1:5000/codecouch/question/
+
+
+curl -w "%{http_code}\n" -X POST -F 'Usn=f1' -F 'Question_name=Bubble sort'  -F 'Tags=Holy Water'  -F 'description=@./description'  -F 'op1=@./op1'  -F 'ip1=@./ip1'  http://127.0.0.1:5000/codecouch/question/
+
+curl -w "%{http_code}\n" -X POST -F 'Usn=f1' -F 'Question_name=Quick sort'  -F 'Tags=Holy Water'  -F 'description=@./description'  -F 'op1=@./op1'  -F 'ip1=@./ip1'  http://127.0.0.1:5000/codecouch/question/
+
+curl -w "%{http_code}\n" -X POST -F 'Usn=f1' -F 'Question_name=Binary search tree'  -F 'Tags=Holy Water'  -F 'description=@./description'  -F 'op1=@./op1'  -F 'ip1=@./ip1'  http://127.0.0.1:5000/codecouch/question/

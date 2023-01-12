@@ -1,0 +1,13 @@
+Given an array of numbers and a key k, list the index of k. Output -1 if not found. 
+Indexing from 1
+The first line of the input is an integer 'n' 
+The second line of the input is n integers separated by spaces
+The third line has the key 'k'
+
+INPUT:
+4
+45 67 23 1
+67
+
+OUTPUT:
+2

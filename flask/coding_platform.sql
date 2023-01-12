@@ -162,6 +162,8 @@ Code_Pathway VARCHAR(40),	/*Pathway to the submission code*/
 Submission_ID SERIAL,
 Student_ID VARCHAR(14) REFERENCES Student(Student_ID) ON DELETE CASCADE,
 Question_ID INT REFERENCES Questions(Question_ID) ON DELETE CASCADE,
+Correct_testcases INT,
+Language VARCHAR(20),
 PRIMARY KEY(Submission_ID,Student_ID,Question_ID)
 );
 

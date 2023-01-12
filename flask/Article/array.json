@@ -1,0 +1,50 @@
+{
+	"0":{
+		"title": "Arrays in C/C++",
+		"data" : "An array in C or C++ is a collection of items stored at contiguous memory locations and elements can be accessed randomly using indices of an array. They are used to store similar type of elements as in the data type must be the same for all elements. They can be used to store collection of primitive data types such as int, float, double, char, etc of any particular type. To add to it, an array in C or C++ can store derived data types such as the structures, pointers etc. Given below is the picturesque representation of an array.",
+		"code" : "Array declaration by specifying size : int arr1[10]; int n=10; int arr[n];",
+		"advantage": {
+						"1" : "Random access of elements using array index.",
+					 	"2" : "Use of less line of code as it creates a single array of multiple elements.",
+					 	"3" : "Easy access to all the elements.",
+					 	"4" : "Traversal through the array becomes easy using a single loop.",
+	    			 	"5" : "Sorting becomes easy as it can be accomplished by writing less line of code."
+	    			 },
+	    "disadvantages": {
+						"1" : "Allows a fixed number of elements to be entered which is decided at the time of declaration. Unlike a linked list, an array in C is not dynamic.",
+					 	"2" : "Insertion and deletion of elements can be costly since the elements are needed to be managed in accordance with the new memory allocation."
+	    			 },
+	    "link" : "https://www.geeksforgeeks.org/arrays-in-c-cpp/"
+		},
+
+	"1":{
+		"title": "Linked List",
+		"data" : "A linked list is a linear data structure, in which the elements are not stored at contiguous memory locations. In simple words, a linked list consists of nodes where each node contains a data field and a reference(link) to the next node in the list.Arrays can be used to store linear data of similar types",
+		"code" : "structure : struct Node { int data; struct Node* next; };",
+		"advantage": {
+						"1" : "Dynamic size",
+					 	"2" : "Ease of insertion/deletion"
+					 },
+	    "disadvantages": {
+						"1" : "Random access is not allowed. We have to access elements sequentially starting from the first node. So we cannot do binary search with linked lists efficiently with its default implementation. Read about it here.",
+					 	"2" : "Extra memory space for a pointer is required with each element of the list.",
+					 	"3" : "Not cache friendly. Since array elements are contiguous locations, there is locality of reference which is not there in case of linked lists."
+	    			 },
+	    "link" : "https://www.geeksforgeeks.org/linked-list-set-1-introduction/"
+		},
+	
+	"2":{
+		"title": "Stack Data Structure",
+		"data" : "Stack is a linear data structure which follows a particular order in which the operations are performed. The order may be LIFO(Last In First Out) or FILO(First In Last Out).There are many real-life examples of a stack. Consider an example of plates stacked over one another in the canteen. The plate which is at the top is the first one to be removed, i.e. the plate which has been placed at the bottommost position remains in the stack for the longest period of time. So, it can be simply seen to follow LIFO(Last In First Out)/FILO(First In Last Out) order.",
+		"code" : "structure : struct Stack { int top; unsigned capacity; int* array; }; ",
+		"link" : "https://www.geeksforgeeks.org/stack-data-structure/"
+	},
+
+	"3" : {
+		"title": "Queue Data Structure",
+		"data" : "A Queue is a linear structure which follows a particular order in which the operations are performed. The order is First In First Out (FIFO). A good example of a queue is any queue of consumers for a resource where the consumer that came first is served first. The difference between stacks and queues is in removing. In a stack we remove the item the most recently added; in a queue, we remove the item the least recently added.",
+		"code" : "structure : struct Queue { int front, rear, size; unsigned capacity; int* array; }; ",
+		"link" : "https://www.geeksforgeeks.org/queue-data-structure/"
+	}
+	
+}
